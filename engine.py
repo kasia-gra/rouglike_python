@@ -1,3 +1,6 @@
+import csv
+
+
 def create_board(width, height):
     '''
     Creates a new game board based on input parameters.
@@ -9,8 +12,9 @@ def create_board(width, height):
     Returns:
     list: Game board
     '''
-    pass
-
+    with open("map1.csv", "r") as file:
+        board = csv.reader(file)
+        return list(board)
 
 def put_player_on_board(board, player):
     '''
