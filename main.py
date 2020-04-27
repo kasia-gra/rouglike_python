@@ -9,12 +9,16 @@ PLAYER_START_Y = 3
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 
-EMPTY_FIELD = "0"
-WALL = "1"
-DOOR = "9"
+
 ENEMY1 = "2"
 ENEMY2 = "3"
 ENEMY3 = "4"
+ITEMS  = {"sword": {"name": "S", "type": "weapon", "strenght": 20, "health": 0},\
+        "whip": {"name": "W", "type": "weapon", "strenght": 10, "health": 0},\
+        "elixir": {"name": "E", "type": "potions", "strenght": 5, "health": 10},\
+        "cloak": {"name": "C", "type": "magic_item", "strenght": 5, "health": 5},\
+        "key": {"name": "K", "type": "magic_item", "strenght": 0, "health": 0}}
+INVENTORY = {}
 
 
 def create_player():
@@ -32,8 +36,9 @@ def create_player():
 
 
 def main():
+    level = 3
     player = create_player()
-    board = engine.create_board()
+    board = engine.create_board(level)
 
     util.clear_screen()
     is_running = True

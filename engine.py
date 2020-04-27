@@ -5,9 +5,9 @@ UP = 0
 LEFT = 1
 DOWN = 2
 RIGHT = 3
+MAPS = {1: "map1.csv", 2: "map2.csv", 3:"map3.csv"}
 
-
-def create_board():
+def create_board(level):
     '''
     Creates a new game board based on input parameters.
 
@@ -18,7 +18,8 @@ def create_board():
     Returns:
     list: Game board
     '''
-    with open("map1.csv", "r") as file:
+
+    with open(MAPS[level], "r") as file:
         board = csv.reader(file)
         return list(board)
 
@@ -98,3 +99,19 @@ def place_entitiy(board, enitity):
     x = enitity["pos_X"]
     y = enitity["pos_Y"]
     board[y][x] = enitity["name"]
+
+
+def check_if_player_found_item(board, ITEMS, pos_X, pos_Y):
+    has_found_item = False
+    if board[pos_X][pos_Y] in ITEMS.keys():
+        has_found_item = True
+    return has_found_item
+
+
+def add_item_to_inventory(INVENTORY, pos_X, pos_Y):
+    item = board[pos_X][pos_Y]
+    if item in inventory:
+        inventory[item] += 1
+    else:
+        inventory[item] = 1
+    return inventory
