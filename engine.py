@@ -2,7 +2,7 @@ import csv
 import random
 
 
-def create_board(width, height):
+def create_board():
     '''
     Creates a new game board based on input parameters.
 
@@ -32,15 +32,15 @@ def put_player_on_board(board, player):
     pass
 
 
-def create_enemies(level_one_enemies=1, level_two_enemies=1, level_three_enemies=1):
+def create_enemies(board, level_one_enemies=1, level_two_enemies=1, level_three_enemies=1):
     number_of_enemies = [level_one_enemies, level_two_enemies, level_three_enemies]
     enemy_name = [2, 3, 4]
     index = 1
     enemies = {}
     for number in range(len(number_of_enemies)):
-        name = enemy_name(number)
+        name = enemy_name[number]
         for enemy in range(number_of_enemies[number]):
-            coordinates = (0, 0) # get_random_coordinates() will be implemented
+            coordinates = get_random_coordinates(board)
             if name == enemy_name[0]:
                 health = random.randint(1, 15)
                 strength = random.randint(1, 15)
@@ -61,7 +61,7 @@ def create_avatar_attributes(coordinates, name, health_points, strength_points, 
     return {"pos_X": pos_X, "pos_Y": pos_Y, "name": name, "type": avatar_type, "helath": health_points, "strength": strength_points}
 
 
-def get_random_coordinates():
-    pos_X = 0
-    pos_Y = 0
+def get_random_coordinates(board):
+    pos_X = random.randint(7, len(board) - 1)
+    pos_Y = random.randint(7, len(board[0]) - 1)
     return pos_X, pos_Y
