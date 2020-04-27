@@ -9,12 +9,12 @@ PLAYER_START_Y = 3
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 
-EMPTY_FIELD = 0
-WALL = 1
-DOOR = 9
-ENEMY1 = 2
-ENEMY2 = 3
-ENEMY3 = 4
+EMPTY_FIELD = "0"
+WALL = "1"
+DOOR = "9"
+ENEMY1 = "2"
+ENEMY2 = "3"
+ENEMY3 = "4"
 
 
 def create_player():
@@ -30,7 +30,7 @@ def create_player():
 
 def main():
     player = create_player()
-    board = engine.create_board(BOARD_WIDTH, BOARD_HEIGHT)
+    board = engine.create_board()
 
     util.clear_screen()
     is_running = True

@@ -1,7 +1,7 @@
 import csv
 
 
-def create_board(width, height):
+def create_board():
     '''
     Creates a new game board based on input parameters.
 
