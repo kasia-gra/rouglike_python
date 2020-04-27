@@ -1,6 +1,11 @@
 import csv
 import random
 
+UP = 0
+LEFT = 1
+DOWN = 2
+RIGHT = 3
+
 
 def create_board():
     '''
@@ -65,3 +70,31 @@ def get_random_coordinates(board):
     pos_X = random.randint(7, len(board) - 1)
     pos_Y = random.randint(7, len(board[0]) - 1)
     return pos_X, pos_Y
+
+
+def move(direction, enitity):
+    if direction == UP:
+        enitity["pos_Y"] -= 1
+    if direction == LEFT:
+        enitity["pos_X"] -= 1
+    if direction == DOWN:
+        enitity["pos_Y"] += 1
+    if direction == RIGHT:
+        enitity["pos_X"] += 1
+
+
+def move_in_direction(key, enitity):
+    if key == 'w':
+        move(UP, enitity)
+    if key == 'a':
+        move(LEFT, enitity)
+    if key == 's':
+        move(DOWN, enitity)
+    if key == 'd':
+        move(RIGHT, enitity)
+
+
+def place_entitiy(board, enitity):
+    x = enitity["pos_X"]
+    y = enitity["pos_Y"]
+    board[y][x] = enitity["name"]

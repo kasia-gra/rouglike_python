@@ -25,7 +25,10 @@ def create_player():
     Returns:
     dictionary
     '''
-    pass
+    health = 40
+    strength = 10
+    player = engine.create_avatar_attributes((PLAYER_START_X, PLAYER_START_Y), PLAYER_ICON, health, strength, "player")
+    return player
 
 
 def main():
@@ -35,10 +38,10 @@ def main():
     util.clear_screen()
     is_running = True
     while is_running:
-        engine.put_player_on_board(board, player)
+        engine.place_entitiy(board, player)
         ui.display_board(board)
-
         key = util.key_pressed()
+        engine.move_in_direction(key, player)
         if key == 'q':
             is_running = False
         else:
