@@ -76,7 +76,23 @@ def get_random_coordinates(board):
     return pos_X, pos_Y
 
 
-def move(direction, enitity):
+def get_coordinates(enitity):
+    x = enitity["pos_X"]
+    y = enitity["pos_Y"]
+    return (x, y)
+
+def clear_my_trace(board, enitity):
+    (x,y) = get_coordinates(enitity)
+    board[y][x] = ' '
+
+
+def is_move_possible(enitity):
+    pass
+    
+
+
+def move(direction, enitity, board):
+    clear_my_trace(board, enitity)
     if direction == UP:
         enitity["pos_Y"] -= 1
     if direction == LEFT:
@@ -87,20 +103,19 @@ def move(direction, enitity):
         enitity["pos_X"] += 1
 
 
-def move_in_direction(key, enitity):
+def move_player(key, enitity, board):
     if key == 'w':
-        move(UP, enitity)
+        move(UP, enitity, board)
     if key == 'a':
-        move(LEFT, enitity)
+        move(LEFT, enitity, board)
     if key == 's':
-        move(DOWN, enitity)
+        move(DOWN, enitity, board)
     if key == 'd':
-        move(RIGHT, enitity)
+        move(RIGHT, enitity, board)
 
 
 def place_entitiy(board, enitity):
-    x = enitity["pos_X"]
-    y = enitity["pos_Y"]
+    (x, y) = get_coordinates(enitity)
     board[y][x] = enitity["name"]
 
 

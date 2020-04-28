@@ -41,7 +41,7 @@ def main():
         engine.place_entitiy(board, player)
         ui.display_board(board)
         key = util.key_pressed()
-        engine.move_in_direction(key, player)
+        engine.move_player(key, player, board)
         if key == 'q':
             is_running = False
         elif key == "i":
