@@ -1,6 +1,7 @@
 import util
 import engine
 import ui
+import random
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
@@ -9,10 +10,6 @@ PLAYER_START_Y = 3
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 
-
-ENEMY1 = "2"
-ENEMY2 = "3"
-ENEMY3 = "4"
 INVENTORY = {}
 
 
@@ -58,7 +55,10 @@ def main():
         ui.display_board(board)
         key = util.key_pressed()
         engine.move_player(key, player, board)
-        if key == 'q':
+        if key in "wsad":
+            for enemy_key, value in enemies.items():
+                engine.move_player(random.choice(["w", "s", "a", "d"]), value, board)
+        elif key == 'q':
             is_running = False
         elif key == "i":
             chagne_mode_from_game_to_inventory(INVENTORY)
