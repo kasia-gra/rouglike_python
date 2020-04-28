@@ -50,3 +50,23 @@ def format(inventory):
                            k.rjust(left_padding) + mid + f'{v}'.rjust(right_padding)
                            + "\n")
     print(inventory_table + table_horizontal_border)
+
+
+def print_enemy(filename):
+    with open(filename, "r") as file:
+        enemy = file.read()
+        print(enemy)
+
+
+def print_game_statistics(player, enemies, name):
+    atributes_to_print = ["strength", "helath"]
+    for k,v in enemies.items():
+        if v["name"] == name:
+            enemies = v
+    statistics = zip(player.items(), enemies.items())
+    game_stat_formatted = (f"Player statistics              Enemy statistics\n")
+    for item in statistics:
+        if item[0][0] in atributes_to_print:
+            game_stat_formatted += (f"{item[0][0]} {item[0][1]}                      {item[1][0]} {item[1][1]}")
+            game_stat_formatted += "\n"
+    print(game_stat_formatted)
