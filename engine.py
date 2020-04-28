@@ -55,7 +55,7 @@ def create_enemies(player_start_pos_X, player_start_pos_Y, board, number_of_enem
     for index, number in enumerate(number_of_enemies, start=1):
         name = number
         for enemy in range(len(number_of_enemies)):
-            coordinates = get_random_coordinates(board)
+            coordinates = get_random_coordinates(player_start_pos_X, player_start_pos_Y, board)
             if name == ENEMY_NAMES[0]:
                 health, strength = get_health_and_strength(1, 15)
             elif name == ENEMY_NAMES[1]:
@@ -73,9 +73,13 @@ def generate_enemies_on_all_levels(number_of_enemies):
     return enemies
 
 
-def get_random_coordinates(board):
-    pos_X = random.randint(7, len(board) - 1)
-    pos_Y = random.randint(7, len(board[0]) - 1)
+def get_random_coordinates(start_pos_X, start_pos_Y, board):
+    enemy_player_distance_index_X = [index for index in range(start_pos_X - 3, start_pos_X + 4) if index >= 0]
+    enemy_player_distance_index_Y = [index for index in range(start_pos_Y - 3, start_pos_Y + 4) if index >= 0]
+    index_X = [index for index in range(len(board) - 1) if index not in enemy_player_distance_index_X]
+    index_Y = [index for index in range(len(board) - 1) if index not in enemy_player_distance_index_Y]
+    pos_X = random.choice(index_X)
+    pos_Y = random.choice(index_Y)
     return pos_X, pos_Y
 
 
