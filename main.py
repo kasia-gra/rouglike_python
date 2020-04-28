@@ -43,7 +43,7 @@ def chagne_mode_from_game_to_inventory(INVENTORY):
 
 
 def main():
-    level = 1
+    level = 2
     player = create_player()
     maps = generate_maps()
     enemies = generate_enemies(maps)
