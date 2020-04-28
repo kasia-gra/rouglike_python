@@ -5,10 +5,12 @@ UP = 0
 LEFT = 1
 DOWN = 2
 RIGHT = 3
+WALL = "X"
 MAPS = {1: "map1.csv", 2: "map2.csv", 3:"map3.csv"}
 DOORS = {"EX": {"name": "X", "status": "closed"},
           "EN": {"name": "N", "status": "open"}}
 ENEMY_NAMES = ["2", "3", "4"]
+
 
 
 def create_board(level):
@@ -106,7 +108,8 @@ def is_move_possible(enitity, elements_to_check, board, direction):
     
     x = direction_to_check[0]
     y = direction_to_check[1]
-    if board[y][x] not in elements_to_check:
+    # if board[y][x] not in elements_to_check:
+    if board[y][x] == WALL:
         return False
     return True
 

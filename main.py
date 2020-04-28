@@ -13,7 +13,7 @@ BOARD_HEIGHT = 20
 ENEMY1 = "2"
 ENEMY2 = "3"
 ENEMY3 = "4"
-INVENTORY = {"sword": 1, "whip": 2}
+INVENTORY = {}
 
 
 def create_player():
