@@ -30,6 +30,20 @@ def create_player():
     return player
 
 
+def chagne_mode_from_game_to_inventory(INVENTORY):
+    while True:
+        try: 
+            ui.format(INVENTORY)
+            back_to_game = input("Type 'y' if you want to go back to game")
+            if back_to_game == "y":
+                util.clear_screen()
+                break
+            else:
+                raise ValueError
+        except ValueError:
+            print("ooops you need to press 'y' to go back to game")
+
+
 def main():
     level = 1
     player = create_player()
@@ -47,11 +61,7 @@ def main():
         if key == 'q':
             is_running = False
         elif key == "i":
-            util.clear_screen()
-            ui.format(INVENTORY)
-            back_to_game = input("Do you want to go back to game (Y/N) ?")
-            if back_to_game == "Y":
-                util.clear_screen()
+            chagne_mode_from_game_to_inventory(INVENTORY)
         util.clear_screen()
 
 if __name__ == "__main__":
