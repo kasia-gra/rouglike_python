@@ -99,18 +99,18 @@ def create_avatar_attributes(coordinates, name, health_points, strength_points, 
     return {"pos_X": pos_X, "pos_Y": pos_Y, "name": name, "type": avatar_type, "helath": health_points, "strength": strength_points}
 
 
-def get_coordinates(enitity):
-    x = enitity["pos_X"]
-    y = enitity["pos_Y"]
+def get_coordinates(entity):
+    x = entity["pos_X"]
+    y = entity["pos_Y"]
     return (x, y)
 
-def clear_my_trace(board, enitity):
-    (x,y) = get_coordinates(enitity)
+def clear_my_trace(board, entity):
+    (x,y) = get_coordinates(entity)
     board[y][x] = ' '
 
 
-def is_move_possible(enitity, elements_to_check, board, direction):
-    x, y = get_coordinates(enitity)
+def is_move_possible(entity, elements_to_check, board, direction):
+    x, y = get_coordinates(entity)
     if direction == UP:
         direction_to_check = (x, y-1)
     if direction == LEFT:
@@ -128,33 +128,42 @@ def is_move_possible(enitity, elements_to_check, board, direction):
     return True
 
 
-def move(direction, enitity, board):
-    clear_my_trace(board, enitity)
+def get_character_in_position(x, y, board):
+    return board[y][x]
+
+
+def player_action(player_next_step, level, board):
+    if player_next_step == "EX": 
+        level += 1
+
+
+def move(direction, entity, board):
+    clear_my_trace(board, entity)
     if direction == UP:
-        enitity["pos_Y"] -= 1
+        entity["pos_Y"] -= 1
     if direction == LEFT:
-        enitity["pos_X"] -= 1
+        entity["pos_X"] -= 1
     if direction == DOWN:
-        enitity["pos_Y"] += 1
+        entity["pos_Y"] += 1
     if direction == RIGHT:
-        enitity["pos_X"] += 1
+        entity["pos_X"] += 1
 
 
-def move_player(key, enitity, board):
+def move_player(key, entity, board):
     elements_to_check = [' ']
-    if key == 'w' and is_move_possible(enitity, elements_to_check, board, UP):
-        move(UP, enitity, board)
-    if key == 'a' and is_move_possible(enitity, elements_to_check, board, LEFT):
-        move(LEFT, enitity, board)
-    if key == 's' and is_move_possible(enitity, elements_to_check, board, DOWN):
-        move(DOWN, enitity, board)
-    if key == 'd' and is_move_possible(enitity, elements_to_check, board, RIGHT):
-        move(RIGHT, enitity, board)
+    if key == 'w' and is_move_possible(entity, elements_to_check, board, UP):
+        move(UP, entity, board)
+    if key == 'a' and is_move_possible(entity, elements_to_check, board, LEFT):
+        move(LEFT, entity, board)
+    if key == 's' and is_move_possible(entity, elements_to_check, board, DOWN):
+        move(DOWN, entity, board)
+    if key == 'd' and is_move_possible(entity, elements_to_check, board, RIGHT):
+        move(RIGHT, entity, board)
 
 
-def place_entitiy(board, enitity):
-    (x, y) = get_coordinates(enitity)
-    board[y][x] = enitity["name"]
+def place_entitiy(board, entity):
+    (x, y) = get_coordinates(entity)
+    board[y][x] = entity["name"]
 
 
 def check_if_player_found_item(board, ITEMS, pos_X, pos_Y):
