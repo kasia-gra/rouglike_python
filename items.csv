@@ -1,0 +1,6 @@
+item,name,type,strenght,health
+sword,S,weapon,20,0
+elixir,E,weapon,5,10
+cloak,E,magic_item,5,5
+key,K,magic_item,0,0
+whip,W,weapon,10,0

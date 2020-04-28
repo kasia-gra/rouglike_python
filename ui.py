@@ -1,12 +1,9 @@
 import sys 
 from termcolor import colored, cprint
+import files_managment
 
 
-ITEMS  = {"sword": {"name": "S", "type": "weapon", "strenght": 20, "health": 0},\
-        "whip": {"name": "W", "type": "weapon", "strenght": 10, "health": 0},\
-        "elixir": {"name": "E", "type": "potions", "strenght": 5, "health": 10},\
-        "cloak": {"name": "C", "type": "magic_item", "strenght": 5, "health": 5},\
-        "key": {"name": "K", "type": "magic_item", "strenght": 0, "health": 0}}
+ITEMS = files_managment.import_data_to_dict("items.csv")
 
 
 MAP_SCHEME = {"@": "@", " ": " ", "X": colored("*"), "EX": colored("D", "white", "on_green"),\
