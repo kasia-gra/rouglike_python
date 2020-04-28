@@ -101,7 +101,8 @@ def is_move_possible(enitity, elements_to_check, board, direction):
     
     x = direction_to_check[0]
     y = direction_to_check[1]
-    if board[y][x] not in elements_to_check:
+    # if board[y][x] not in elements_to_check:
+    if board[y][x] == WALL:
         return False
     return True
 
