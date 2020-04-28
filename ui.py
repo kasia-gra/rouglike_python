@@ -12,7 +12,7 @@ ITEMS  = {"sword": {"name": "S", "type": "weapon", "strenght": 20, "health": 0},
 MAP_SCHEME = {"@": "@", " ": " ", "X": colored("*"), "EX": colored("D", "white", "on_green"),\
               "EN": colored("D", "white", "on_yellow"),\
               "elixir": colored(ITEMS["elixir"]["name"], "magenta"), "key": colored(ITEMS["key"]["name"], "green"), "sword": colored(ITEMS["sword"]["name"], "yellow"),\
-              "cloak": colored(ITEMS["cloak"]["name"], "blue"), "whip": colored(ITEMS["whip"]["name"], "yellow"),}
+              "cloak": colored(ITEMS["cloak"]["name"], "blue"), "whip": colored(ITEMS["whip"]["name"], "yellow"), "2": "2", "3":"3", "4":"4"} 
 
 
 def display_board(board):

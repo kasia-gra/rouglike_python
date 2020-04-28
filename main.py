@@ -34,11 +34,13 @@ def main():
     level = 1
     player = create_player()
     board = engine.create_board(level)
-
+    enemies = engine.create_enemies(PLAYER_START_X, PLAYER_START_Y, board, 3)
     util.clear_screen()
     is_running = True
     while is_running:
         engine.place_entitiy(board, player)
+        for key, value in enemies.items():
+            engine.place_entitiy(board, value)
         ui.display_board(board)
         key = util.key_pressed()
         engine.move_player(key, player, board)
@@ -47,9 +49,10 @@ def main():
         elif key == "i":
             util.clear_screen()
             ui.format(INVENTORY)
-            back_to_game = input("Press any key to go back to game ")
+            back_to_game = input("Do you want to go back to game (Y/N) ?")
+            if back_to_game == "Y":
+                util.clear_screen()
         util.clear_screen()
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
