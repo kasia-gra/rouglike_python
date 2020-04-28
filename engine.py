@@ -85,7 +85,10 @@ def get_random_coordinates(start_pos_X, start_pos_Y, board):
     index_Y = [index for index in range(len(board) - 1) if index not in enemy_player_distance_index_Y]
     pos_X = random.choice(index_X)
     pos_Y = random.choice(index_Y)
-    return pos_X, pos_Y
+    if get_character_in_position(pos_X, pos_Y, board):
+        return pos_X, pos_Y
+    else:
+        get_random_coordinates(start_pos_X, start_pos_Y, board)
 
 
 def get_health_and_strength(start_range, end_range):
