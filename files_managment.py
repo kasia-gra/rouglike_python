@@ -1,9 +1,12 @@
 import csv 
+import os
 
 
-def import_data_to_dict(filename):
+DIRPATH = os.getcwd()
+
+def import_data_to_dict(DIRPATH, folder, filename):
     items = {}
-    with open(filename, "r") as file:
+    with open(f"{DIRPATH}/{folder}/{filename}", "r") as file:
         items_list = list(csv.reader(file))
         items_keys = items_list[0]
         for col_index in range(1, len(items_list)):
@@ -14,3 +17,8 @@ def import_data_to_dict(filename):
                 else:
                     items[items_list[col_index][item_index]] = atributes
     return items
+
+def read_image_file(DIRPATH, folder, filename):
+    with open(f"{DIRPATH}/{folder}/{filename}", "r") as file:
+        image = file.read()
+        return image

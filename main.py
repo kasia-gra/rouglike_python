@@ -2,6 +2,8 @@ import util
 import engine
 import ui
 import random
+import os
+import files_managment
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
@@ -12,7 +14,7 @@ BOARD_HEIGHT = 20
 
 INVENTORY = {}
 NUMBER_OF_MAPS = 3
-
+DIRPATH = os.getcwd()
 
 def create_player():
     '''
@@ -31,7 +33,7 @@ def create_player():
 
 def chagne_mode_from_game_to_inventory(INVENTORY):
     while True:
-        try: 
+        try:
             ui.format(INVENTORY)
             back_to_game = input("Type 'y' if you want to go back to game")
             if back_to_game == "y":
@@ -43,7 +45,37 @@ def chagne_mode_from_game_to_inventory(INVENTORY):
             print("ooops you need to press 'y' to go back to game")
 
 
+def choose_avatar(DIRPATH):
+    avatars_atributes = files_managment.import_data_to_dict(DIRPATH, "avatars_files", "avatars_atributes.csv")
+    avatars_atributes_for_printing = files_managment.import_data_to_dict(DIRPATH, "avatars_files", "avatar_atributes_for_printing.csv")
+    avatar_chosen = False
+    avatar_index = 0
+    all_avatars = list(avatars_atributes.keys())
+    while not avatar_chosen:
+        print("\nUse keys 's' and 'd' to view avatars. To choose avatar press space button")
+        key = util.key_pressed()
+        if key == "d" and avatar_index != len(all_avatars)-1:
+            avatar_index += 1
+        elif key == "d" and avatar_index == len(all_avatars)-1:
+            avatar_index = 0
+        elif key == "s" and avatar_index != 0:
+            avatar_index -= 1
+        elif key == "s" and avatar_index == 0:
+            avatar_index = len(all_avatars) - 1
+        elif key == " ":
+            avatar_chosen = True
+        os.system("clear")
+        avatar_image_file = avatars_atributes_for_printing[all_avatars[avatar_index]]["image"]
+        avatar_image = files_managment.read_image_file(DIRPATH, "avatars_files", avatar_image_file)
+        avatar_details = f"{avatar_image}\
+                            \
+                            AVATAR: {all_avatars[avatar_index]} ATRIBUTES: {avatars_atributes[all_avatars[avatar_index]]}"
+        print(avatar_details)
+    return avatars_atributes[all_avatars[avatar_index]], all_avatars[avatar_index]
+
+
 def main():
+    choose_avatar(DIRPATH)
     level = 1
     player = create_player()
     maps = generate_maps()

@@ -1,9 +1,12 @@
 import sys 
 from termcolor import colored, cprint
 import files_managment
+import os
 
 
-ITEMS = files_managment.import_data_to_dict("items.csv")
+DIRPATH = os.getcwd()
+
+ITEMS = files_managment.import_data_to_dict(DIRPATH, "items", "items.csv")
 
 
 MAP_SCHEME = {"@": "@", " ": " ", "X": colored("*"), "EX": colored("D", "white", "on_green"),\

@@ -1,5 +1,7 @@
 import csv
 import random
+import os
+
 
 UP = 0
 LEFT = 1
@@ -207,3 +209,34 @@ def go_to_another_level(level, board, player, DOORS):
     else:
         level = level
     return level
+
+
+def choose_avatar(DIRPATH):
+    avatars_atributes = import_data_to_dict(DIRPATH, "avatars_files", "avatars_atributes.csv")
+    avatars_atributes_for_printing = import_data_to_dict(DIRPATH, "avatars_files", "avatar_atributes_for_printing.csv")
+    avatar_chosen = False
+    avatar_index = 0
+    all_avatars = list(avatars_atributes.keys())
+    while not avatar_chosen:
+        print("\nUse keys 's' and 'd' to view avatars. To choose avatar press space button")
+        key = util.key_pressed()
+        if key == "d" and avatar_index != len(all_avatars)-1:
+            avatar_index += 1
+        elif key == "d" and avatar_index == len(all_avatars)-1:
+            avatar_index = 0
+        elif key == "s" and avatar_index != 0:
+            avatar_index -= 1
+        elif key == "s" and avatar_index == 0:
+            avatar_index = len(all_avatars) - 1
+        elif key == " ":
+            avatar_chosen = True
+        os.system("clear")
+        avatar_image_file = avatars_atributes_for_printing[all_avatars[avatar_index]]["image"]
+        avatar_image = read_image_file(DIRPATH, "avatars_files", avatar_image_file)
+        avatars_atributes = import_data_to_dict(DIRPATH, "avatars_files", "avatars_atributes.csv")
+        avatar_details = f"{avatar_image}\
+                            \
+                            AVATAR: {all_avatars[avatar_index]} ATRIBUTES: {avatars_atributes[all_avatars[avatar_index]]}"
+        print(avatar_details)
+    return avatars_atributes[all_avatars[avatar_index]], all_avatars[avatar_index]
+
