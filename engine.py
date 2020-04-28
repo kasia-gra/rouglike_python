@@ -55,13 +55,7 @@ def create_enemies(player_start_pos_X, player_start_pos_Y, board, number_of_enem
     for index, number in enumerate(number_of_enemies, start=1):
         name = number
         for enemy in range(len(number_of_enemies)):
-            coordinates = get_random_coordinates(player_start_pos_X, player_start_pos_Y, board)
-            if name == ENEMY_NAMES[0]:
-                health, strength = get_health_and_strength(1, 15)
-            elif name == ENEMY_NAMES[1]:
-                health, strength = get_health_and_strength(15, 30)
-            else:
-                health, strength = get_health_and_strength(30, 50)
+            coordinates, health, strength = generate_single_level_enemy(name,player_start_pos_X, player_start_pos_Y, board)
             enemies[f"Enemy {index}"] = create_avatar_attributes(coordinates, name, health, strength)
     return enemies
 
@@ -71,6 +65,17 @@ def generate_enemies_on_all_levels(number_of_enemies):
     for element in range(number_of_enemies):
         enemies.append(random.choice(ENEMY_NAMES))
     return enemies
+
+
+def generate_single_level_enemy(name, player_start_pos_X, player_start_pos_Y, board):
+    coordinates = get_random_coordinates(player_start_pos_X, player_start_pos_Y, board)
+    if name == ENEMY_NAMES[0]:
+        health, strength = get_health_and_strength(1, 15)
+    elif name == ENEMY_NAMES[1]:
+        health, strength = get_health_and_strength(15, 30)
+    else:
+        health, strength = get_health_and_strength(30, 50)
+    return coordinates, health, strength
 
 
 def get_random_coordinates(start_pos_X, start_pos_Y, board):
