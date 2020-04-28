@@ -13,7 +13,7 @@ BOARD_HEIGHT = 20
 ENEMY1 = "2"
 ENEMY2 = "3"
 ENEMY3 = "4"
-INVENTORY = {}
+INVENTORY = {"sword": 1, "whip": 2}
 
 
 def create_player():
@@ -44,8 +44,12 @@ def main():
         engine.move_in_direction(key, player)
         if key == 'q':
             is_running = False
-        else:
-            pass
+        elif key == "i":
+            util.clear_screen()
+            ui.format(INVENTORY)
+            back_to_game = input("Do you want to go back to game (Y/N) ?")
+            if back_to_game == "Y":
+                util.clear_screen()
         util.clear_screen()
 
 

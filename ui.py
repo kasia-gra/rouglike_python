@@ -29,7 +29,8 @@ def display_board(board):
     print()
 
 
-def format(INVENTORY):
+def format(inventory):
+    inventory = inventory.items()
     header1 = "item name"
     header2 = " count"
     mid = " |"
