@@ -24,7 +24,10 @@ def display_board(board):
     '''
     for row in board:
         for cell in row:
-            print(MAP_SCHEME[cell], end='')
+            if cell not in MAP_SCHEME.keys():
+                print(cell, end='')
+            else:
+                print(MAP_SCHEME[cell], end='')
         print()
     print()
 

@@ -173,8 +173,8 @@ def remove_from_inventory(INVENTORY, item):
     return INVENTORY
 
 
-def go_to_another_level(level, board, enitity, DOORS):
-    pos_X, pos_Y = get_coordinates(enitity)
+def go_to_another_level(level, board, player, DOORS):
+    pos_X, pos_Y = get_coordinates(player)
     if board[pos_X][pos_Y] == "EX" and DOORS["status"] == "open":
         level += 1
     elif board[pos_X][pos_Y] == "EN":
