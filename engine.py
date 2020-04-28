@@ -86,9 +86,22 @@ def clear_my_trace(board, enitity):
     board[y][x] = ' '
 
 
-def is_move_possible(enitity):
-    pass
+def is_move_possible(enitity, elements_to_check, board, direction):
+    x, y = get_coordinates(enitity)
+    if direction == UP:
+        direction_to_check = (x, y-1)
+    if direction == LEFT:
+        direction_to_check = (x-1, y)
+    if direction == DOWN:
+        direction_to_check = (x, y+1)
+    if direction == RIGHT:
+        direction_to_check = (x+1, y)
     
+    x = direction_to_check[0]
+    y = direction_to_check[1]
+    if board[y][x] not in elements_to_check:
+        return False
+    return True
 
 
 def move(direction, enitity, board):
@@ -104,13 +117,14 @@ def move(direction, enitity, board):
 
 
 def move_player(key, enitity, board):
-    if key == 'w':
+    elements_to_check = [' ']
+    if key == 'w' and is_move_possible(enitity, elements_to_check, board, UP):
         move(UP, enitity, board)
-    if key == 'a':
+    if key == 'a' and is_move_possible(enitity, elements_to_check, board, LEFT):
         move(LEFT, enitity, board)
-    if key == 's':
+    if key == 's' and is_move_possible(enitity, elements_to_check, board, DOWN):
         move(DOWN, enitity, board)
-    if key == 'd':
+    if key == 'd' and is_move_possible(enitity, elements_to_check, board, RIGHT):
         move(RIGHT, enitity, board)
 
 
