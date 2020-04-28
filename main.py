@@ -25,6 +25,7 @@ def create_player():
     health = 40
     strength = 10
     player = engine.create_avatar_attributes((PLAYER_START_X, PLAYER_START_Y), PLAYER_ICON, health, strength, "player")
+    player["inventory"] = INVENTORY
     return player
 
 
@@ -57,6 +58,7 @@ def main():
         ui.display_board(board)
         key = util.key_pressed()
         engine.move_player(key, player, board)
+        level = engine.check_player_next_step(player, level, board, ui.ITEMS)
         if key in "wsad":
             for enemy_key, value in enemies[level - 1].items():
                 engine.move_player(random.choice(["w", "s", "a", "d"]), value, board)
@@ -83,7 +85,6 @@ def generate_enemies(maps):
 
 def switch_map(level, maps):
     return maps[level - 1]
-
 
 if __name__ == "__main__":
     main()

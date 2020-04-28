@@ -135,9 +135,18 @@ def get_character_in_position(x, y, board):
     return board[y][x]
 
 
-def player_action(player_next_step, level, board):
-    if player_next_step == "EX": 
+def check_player_next_step(player, level, board, ITEMS):
+    x, y = get_coordinates(player)
+    player_next_step = get_character_in_position(x, y, board)
+    if player_next_step == "EX":
         level += 1
+        move(LEFT, player, board)
+    elif player_next_step == "EN":
+        level -= 1
+        move(LEFT, player, board) 
+    elif player_next_step in ITEMS.keys():
+        player["inventory"] = add_item_to_inventory(player["inventory"], player_next_step)
+    return level
 
 
 def move(direction, entity, board):
@@ -169,15 +178,14 @@ def place_entitiy(board, entity):
     board[y][x] = entity["name"]
 
 
-def check_if_player_found_item(board, ITEMS, pos_X, pos_Y):
-    has_found_item = False
-    if board[pos_X][pos_Y] in ITEMS.keys():
-        has_found_item = True
-    return has_found_item
+# def check_if_player_found_item(board, ITEMS, pos_X, pos_Y):
+#     has_found_item = False
+#     if board[pos_X][pos_Y] in ITEMS.keys():
+#         has_found_item = True
+#     return has_found_item
 
 
-def add_item_to_inventory(INVENTORY, pos_X, pos_Y):
-    item = board[pos_X][pos_Y]
+def add_item_to_inventory(INVENTORY, item):
     if item in INVENTORY:
         INVENTORY[item] += 1
     else:
