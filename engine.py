@@ -30,6 +30,11 @@ def create_board(level):
         return list(board)
 
 
+def update_board(level, board):
+    with open(MAPS[level], 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(board)
+
 def put_player_on_board(board, player):
     '''
     Modifies the game board by placing the player icon at its coordinates.
@@ -164,7 +169,8 @@ def remove_from_inventory(INVENTORY, item):
     return INVENTORY
 
 
-def go_through_doors_to_another_level(level, board, pos_X, pos_Y, DOORS):
+def go_to_another_level(level, board, enitity, DOORS):
+    pos_X, pos_Y = get_coordinates(enitity)
     if board[pos_X][pos_Y] == "EX" and DOORS["status"] == "open":
         level += 1
     elif board[pos_X][pos_Y] == "EN":

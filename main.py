@@ -47,9 +47,7 @@ def main():
         elif key == "i":
             util.clear_screen()
             ui.format(INVENTORY)
-            back_to_game = input("Do you want to go back to game (Y/N) ?")
-            if back_to_game == "Y":
-                util.clear_screen()
+            back_to_game = input("Press any key to go back to game ")
         util.clear_screen()
 
 
