@@ -31,7 +31,7 @@ def create_player():
 
 
 def main():
-    level = 3
+    level = 1
     player = create_player()
     board = engine.create_board(level)
 

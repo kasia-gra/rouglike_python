@@ -6,6 +6,9 @@ LEFT = 1
 DOWN = 2
 RIGHT = 3
 MAPS = {1: "map1.csv", 2: "map2.csv", 3:"map3.csv"}
+DOORS = {"EX": {"name": "X", "status": "closed"},
+          "EN": {"name": "N", "status": "open"}}
+
 
 def create_board(level):
     '''
@@ -122,10 +125,10 @@ def remove_from_inventory(INVENTORY, item):
     return INVENTORY
 
 
-def open_doors to another_level(level, board, pos_X, pos_Y):
-    if board[pos_X][pos_Y] == "EX":
+def go_through_doors_to_another_level(level, board, pos_X, pos_Y, DOORS):
+    if board[pos_X][pos_Y] == "EX" and DOORS["status"] == "open":
         level += 1
-    elif board[pos_X][pos_Y] == "EN"
+    elif board[pos_X][pos_Y] == "EN":
         level -= 1
     else:
         level = level
