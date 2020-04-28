@@ -110,8 +110,23 @@ def check_if_player_found_item(board, ITEMS, pos_X, pos_Y):
 
 def add_item_to_inventory(INVENTORY, pos_X, pos_Y):
     item = board[pos_X][pos_Y]
-    if item in inventory:
-        inventory[item] += 1
+    if item in INVENTORY:
+        INVENTORY[item] += 1
     else:
-        inventory[item] = 1
-    return inventory
+        INVENTORY[item] = 1
+    return INVENTORY
+
+
+def remove_from_inventory(INVENTORY, item):
+    INVENTORY[item] -= 1
+    return INVENTORY
+
+
+def open_doors to another_level(level, board, pos_X, pos_Y):
+    if board[pos_X][pos_Y] == "EX":
+        level += 1
+    elif board[pos_X][pos_Y] == "EN"
+        level -= 1
+    else:
+        level = level
+    return level

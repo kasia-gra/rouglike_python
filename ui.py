@@ -9,12 +9,10 @@ ITEMS  = {"sword": {"name": "S", "type": "weapon", "strenght": 20, "health": 0},
         "key": {"name": "K", "type": "magic_item", "strenght": 0, "health": 0}}
 
 
-MAP_SCHEME = {"@": "@", " ": " ", "X": colored("X"), "EX": colored("D", "white", "on_green"),\
+MAP_SCHEME = {"@": "@", " ": " ", "X": colored("*"), "EX": colored("D", "white", "on_green"),\
               "EN": colored("D", "white", "on_yellow"),\
-              "elixir": colored("E", "magenta"), "key": colored("K", "green"), "sword": colored("S", "yellow"),\
-              "cloak": colored("C", "blue"), "whip": colored("W", "yellow"),}
-
-
+              "elixir": colored(ITEMS["elixir"]["name"], "magenta"), "key": colored(ITEMS["key"]["name"], "green"), "sword": colored(ITEMS["sword"]["name"], "yellow"),\
+              "cloak": colored(ITEMS["cloak"]["name"], "blue"), "whip": colored(ITEMS["whip"]["name"], "yellow"),}
 
 
 def display_board(board):
@@ -31,7 +29,7 @@ def display_board(board):
     print()
 
 
-def format(inventory):
+def format(INVENTORY):
     header1 = "item name"
     header2 = " count"
     mid = " |"
