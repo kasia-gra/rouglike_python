@@ -5,9 +5,11 @@ UP = 0
 LEFT = 1
 DOWN = 2
 RIGHT = 3
+WALL = "X"
 MAPS = {1: "map1.csv", 2: "map2.csv", 3:"map3.csv"}
 DOORS = {"EX": {"name": "X", "status": "closed"},
           "EN": {"name": "N", "status": "open"}}
+
 
 
 def create_board(level):
