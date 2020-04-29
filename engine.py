@@ -97,7 +97,7 @@ def get_random_coordinates(start_pos_X, start_pos_Y, board):
 
 
 def check_random_coordinates(pos_X, pos_Y, board):
-    return board[pos_X][pos_Y] == " "
+    return board[pos_X][pos_Y] == " " or board[pos_X][pos_Y] == "@"
 
 
 def get_health_and_strength(start_range, end_range):
