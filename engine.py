@@ -1,6 +1,7 @@
 import csv
 import random
 import os
+import time
 import util
 import ui
 import files_managment
@@ -16,7 +17,6 @@ MAPS = {1: "map1.csv", 2: "map2.csv", 3:"map3.csv"}
 DOORS = {"EX": {"name": "X", "status": "closed"},
           "EN": {"name": "N", "status": "open"}}
 ENEMY_NAMES = ["2", "3", "4"]
-
 
 
 def create_board(level):
@@ -221,7 +221,7 @@ def go_to_another_level(level, board, player, DOORS):
     return level
 
 
-def choose_avatar(DIRPATH):
+def choose_avatar(DIRPATH, FIGHT_ATRIBUTES):
     avatars_atributes = files_managment.import_data_to_dict(DIRPATH, "avatars_files", "avatars_atributes.csv")
     avatar_chosen = False
     avatar_index = 0
@@ -238,9 +238,12 @@ def choose_avatar(DIRPATH):
         elif key == "s" and avatar_index == 0:
             avatar_index = len(all_avatars) - 1
         elif key == " ":
+            print(f"Your avatar is {all_avatars[avatar_index].upper()}")
+            time.sleep(1)
             avatar_chosen = True
         else:
-            continue
+            pass
         os.system("clear")
-        ui.print_avatar(DIRPATH, avatar_index)
-    return avatars_atributes[all_avatars[avatar_index]], all_avatars[avatar_index]
+        ui.print_avatar(DIRPATH, avatar_index, FIGHT_ATRIBUTES)
+        print(avatars_atributes[all_avatars[avatar_index]])
+    return avatars_atributes[all_avatars[avatar_index]]

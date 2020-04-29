@@ -8,6 +8,7 @@ import files_managment
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
 PLAYER_START_Y = 3
+FIGHT_ATRIBUTES = ["health", "strenght"]
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
@@ -47,7 +48,7 @@ def chagne_mode_from_game_to_inventory(INVENTORY):
 
 
 def main():
-    engine.choose_avatar(DIRPATH)
+    engine.choose_avatar(DIRPATH, FIGHT_ATRIBUTES)
     level = 1
     player = create_player()
     maps = generate_maps()

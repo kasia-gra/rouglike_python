@@ -72,13 +72,14 @@ def print_game_statistics(player, enemies, name):
     print(game_stat_formatted)
 
 
-def print_avatar(DIRPATH, avatar_index):
+def print_avatar(DIRPATH, avatar_index, FIGHT_ATRIBUTES):
     avatars_atributes = files_managment.import_data_to_dict(DIRPATH, "avatars_files", "avatars_atributes.csv")
     avatars_atributes_for_printing = files_managment.import_data_to_dict(DIRPATH, "avatars_files", "avatar_atributes_for_printing.csv")
     all_avatars = list(avatars_atributes.keys())
     avatar_image_file = avatars_atributes_for_printing[all_avatars[avatar_index]]["image"]
     avatar_image = files_managment.read_image_file(DIRPATH, "avatars_files", avatar_image_file)
-    avatar_details = f"{avatar_image}\
-                        \
-                        AVATAR: {all_avatars[avatar_index]} ATRIBUTES: {avatars_atributes[all_avatars[avatar_index]]}"
+    avatar_all_atributes = avatars_atributes[all_avatars[avatar_index]]
+    avatar_details = str(avatar_image) +  "\n" + str(all_avatars[avatar_index]).upper() + ":\n"
+    for fight_atribute in FIGHT_ATRIBUTES:
+        avatar_details += str(fight_atribute.rjust(10)) + " - " +  str(avatars_atributes[all_avatars[avatar_index]][fight_atribute].rjust(2)) + "\n"
     print(avatar_details)
