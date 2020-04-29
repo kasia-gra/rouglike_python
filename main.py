@@ -61,9 +61,7 @@ def main():
         for key, value in enemies[level - 1].items():
             engine.place_entitiy(board, value)
         ui.display_board(board)
-        print(player_inventory)
-        print(player)
-        print(generate_doors_status_and_position(maps))
+        ui.display_avatar_atributes(player, FIGHT_ATRIBUTES)
         key = util.key_pressed()
         engine.move_player(key, player, board, exit_doors_statuses, level)
         player_next_step = engine.get_player_next_step(player, board)

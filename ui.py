@@ -9,7 +9,7 @@ DIRPATH = os.getcwd()
 ITEMS = files_managment.import_data_to_dict(DIRPATH, "items", "items.csv")
 
 
-MAP_SCHEME = {"@": "@", " ": " ", "X": colored("*"), "EX": colored("D", "white", "on_green"),\
+MAP_SCHEME = {"@": colored("@","white", "on_red"), " ": " ", "X": colored("*"), "EX": colored("D", "white", "on_green"),\
               "EN": colored("D", "white", "on_yellow"),\
               "elixir": colored(ITEMS["elixir"]["name"], "magenta"), "key": colored(ITEMS["key"]["name"], "green"), "sword": colored(ITEMS["sword"]["name"], "yellow"),\
               "cloak": colored(ITEMS["cloak"]["name"], "blue"), "whip": colored(ITEMS["whip"]["name"], "yellow"), "2": "2", "3":"3", "4":"4"} 
@@ -79,3 +79,16 @@ def print_avatar(DIRPATH, avatar_index, FIGHT_ATRIBUTES):
     for fight_atribute in FIGHT_ATRIBUTES:
         avatar_details += str(fight_atribute).rjust(10) + " - " +  str(avatars_atributes[all_avatars[avatar_index]][fight_atribute]).rjust(2) + "\n"
     print(avatar_details)
+
+
+def display_avatar_atributes(player, FIGHT_ATRIBUTES):
+    current_atributes = ""
+    border_lenght = len(current_atributes)
+    atributes_table = ""
+    for atribute, atribute_value in player.items():
+        if atribute in FIGHT_ATRIBUTES:
+            current_atributes += str(atribute).rjust(10) + " - " +  str(atribute_value).rjust(2) + "\n"
+    border = "********************"
+    atributes_table += border + "\n" + "CURRENT STATUS: " + "\n" + current_atributes + border
+    print(atributes_table)
+
