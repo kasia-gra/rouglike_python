@@ -1,6 +1,10 @@
 import csv
 import random
 import os
+import util
+import ui
+import files_managment
+
 
 
 UP = 0
@@ -95,7 +99,7 @@ def get_random_coordinates(start_pos_X, start_pos_Y, board):
 
 
 def check_random_coordinates(pos_X, pos_Y, board):
-    return board[pos_X][pos_Y] == " "
+    return board[pos_X][pos_Y] == " " or board[pos_X][pos_Y] == "@"
 
 
 def get_health_and_strength(start_range, end_range):
@@ -106,7 +110,7 @@ def get_health_and_strength(start_range, end_range):
 
 def create_avatar_attributes(coordinates, name, health_points, strength_points, avatar_type="opponent"):
     pos_X, pos_Y = coordinates
-    return {"pos_X": pos_X, "pos_Y": pos_Y, "name": name, "type": avatar_type, "health": health_points, "strength": strength_points, "file name": f"Enemy{name}.txt"}
+    return {"pos_X": pos_X, "pos_Y": pos_Y, "name": name, "type": avatar_type, "health": health_points, "strength": strength_points, "file name": f"enemy{name}.txt"}
 
 
 def get_coordinates(entity):
@@ -138,22 +142,34 @@ def is_move_possible(entity, elements_to_check, board, direction):
     return True
 
 
+def mark_new_coordinates(entity, coordinates):
+    x, y = coordinates
+    entity["pos_X"] = x
+    entity["pos_Y"] = y
+
+
 def get_character_in_position(x, y, board):
     return board[y][x]
 
 
-def check_player_next_step(player, level, board, ITEMS):
+def get_player_next_step(player, board):
     x, y = get_coordinates(player)
     player_next_step = get_character_in_position(x, y, board)
+    return player_next_step
+
+
+def use_doors(player_next_step, level, player):
+    player_default_coordinates = (3, 3)
     if player_next_step == "EX":
         level += 1
-        move(LEFT, player, board)
     elif player_next_step == "EN":
         level -= 1
-        move(LEFT, player, board) 
-    elif player_next_step in ITEMS.keys():
-        player["inventory"] = add_item_to_inventory(player["inventory"], player_next_step)
+    mark_new_coordinates(player, player_default_coordinates)
     return level
+
+
+def collect_item(player_next_step, ITEMS, player):
+    player["inventory"] = add_item_to_inventory(player["inventory"], player_next_step)
 
 
 def move(direction, entity, board):
@@ -217,8 +233,7 @@ def go_to_another_level(level, board, player, DOORS):
 
 
 def choose_avatar(DIRPATH):
-    avatars_atributes = import_data_to_dict(DIRPATH, "avatars_files", "avatars_atributes.csv")
-    avatars_atributes_for_printing = import_data_to_dict(DIRPATH, "avatars_files", "avatar_atributes_for_printing.csv")
+    avatars_atributes = files_managment.import_data_to_dict(DIRPATH, "avatars_files", "avatars_atributes.csv")
     avatar_chosen = False
     avatar_index = 0
     all_avatars = list(avatars_atributes.keys())
@@ -235,14 +250,10 @@ def choose_avatar(DIRPATH):
             avatar_index = len(all_avatars) - 1
         elif key == " ":
             avatar_chosen = True
+        else:
+            continue
         os.system("clear")
-        avatar_image_file = avatars_atributes_for_printing[all_avatars[avatar_index]]["image"]
-        avatar_image = read_image_file(DIRPATH, "avatars_files", avatar_image_file)
-        avatars_atributes = import_data_to_dict(DIRPATH, "avatars_files", "avatars_atributes.csv")
-        avatar_details = f"{avatar_image}\
-                            \
-                            AVATAR: {all_avatars[avatar_index]} ATRIBUTES: {avatars_atributes[all_avatars[avatar_index]]}"
-        print(avatar_details)
+        ui.print_avatar(DIRPATH, avatar_index)
     return avatars_atributes[all_avatars[avatar_index]], all_avatars[avatar_index]
 
 
@@ -275,9 +286,17 @@ def get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, singl
 def get_avatar_single_move_power(strength):
     single_move_power = 0
     if strength in range(1, 15):
-        single_move_power = random.choice[0.05, 0.1, 0.15]
+        single_move_power = random.choice([0.05, 0.1, 0.15])
     elif strength in range(15, 30):
-        single_move_power = random.choice[0.2, 0.25, 0.30]
+        single_move_power = random.choice([0.2, 0.25, 0.30])
     elif strength > 30:
-        single_move_power = random.choice[0.35, 0.4, 0.45]
+        single_move_power = random.choice([0.35, 0.4, 0.45])
     return strength
+
+
+def check_player_enemies_position(player, enemies):
+    for enemy_key, value in enemies.items():
+        if value["pos_X"] == player["pos_X"] and value["pos_Y"] == player["pos_Y"]:
+            util.clear_screen()
+            key = util.key_pressed()
+            enemy_encounter(key, player, value)

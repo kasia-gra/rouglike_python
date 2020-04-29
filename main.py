@@ -46,35 +46,8 @@ def chagne_mode_from_game_to_inventory(INVENTORY):
 
 
 
-
-
-def choose_avatar(DIRPATH):
-    avatars_atributes = files_managment.import_data_to_dict(DIRPATH, "avatars_files", "avatars_atributes.csv")
-    avatar_chosen = False
-    avatar_index = 0
-    all_avatars = list(avatars_atributes.keys())
-    while not avatar_chosen:
-        print("\nUse keys 's' and 'd' to view avatars. To choose avatar press space button")
-        key = util.key_pressed()
-        if key == "d" and avatar_index != len(all_avatars)-1:
-            avatar_index += 1
-        elif key == "d" and avatar_index == len(all_avatars)-1:
-            avatar_index = 0
-        elif key == "s" and avatar_index != 0:
-            avatar_index -= 1
-        elif key == "s" and avatar_index == 0:
-            avatar_index = len(all_avatars) - 1
-        elif key == " ":
-            avatar_chosen = True
-        else:
-            continue
-        os.system("clear")
-        ui.print_avatar(DIRPATH, avatar_index)
-    return avatars_atributes[all_avatars[avatar_index]], all_avatars[avatar_index]
-
-
 def main():
-    choose_avatar(DIRPATH)
+    engine.choose_avatar(DIRPATH)
     level = 1
     player = create_player()
     maps = generate_maps()
@@ -89,7 +62,11 @@ def main():
         ui.display_board(board)
         key = util.key_pressed()
         engine.move_player(key, player, board)
-        level = engine.check_player_next_step(player, level, board, ui.ITEMS)
+        player_next_step = engine.get_player_next_step(player, board)
+        if player_next_step == "EX" or player_next_step == "EN":
+            level = engine.use_doors(player_next_step, level, player)
+        elif player_next_step in ui.ITEMS:
+            engine.collect_item(player_next_step, ui.ITEMS, player)
         if key in "wsad":
             for enemy_key, value in enemies[level - 1].items():
                 engine.move_player(random.choice(["w", "s", "a", "d"]), value, board)
@@ -97,6 +74,7 @@ def main():
             is_running = False
         elif key == "i":
             chagne_mode_from_game_to_inventory(INVENTORY)
+        engine.check_player_enemies_position(player, enemies[level - 1])
         util.clear_screen()
 
 
