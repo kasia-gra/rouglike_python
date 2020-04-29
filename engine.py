@@ -13,6 +13,8 @@ LEFT = 1
 DOWN = 2
 RIGHT = 3
 WALL = "X"
+ATTACK = "k"
+DEFFENCE = "l"
 MAPS = {1: "map1.csv", 2: "map2.csv", 3:"map3.csv"}
 DOORS = {"EX": {"name": "X", "status": "closed"},
           "EN": {"name": "N", "status": "open"}}
@@ -260,40 +262,49 @@ def choose_avatar(DIRPATH, FIGHT_ATRIBUTES):
     return avatars_atributes[all_avatars[avatar_index]]
 
 
-def enemy_encounter(key_pressed, player_dict, enemy_dict):
+def enemy_encounter(player_dict, enemy_dict):
     while player_dict["health"] > 0 or enemy_dict["health"] > 0:
         single_player_power = get_avatar_single_move_power(player_dict["strength"])
         single_enemy_power = get_avatar_single_move_power(enemy_dict["strength"])
-        enemy_move = random.choice(["Attack", "Defense"])
-        avatar_move = key_pressed  # "k" for attack, "l" for defense
-        get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power)
-    return enemy_dict["name"] if player_dict["health"] == 0 else player_dict["name"]
+        enemy_move = random.choice([ATTACK, DEFFENCE])
+        avatar_move = util.key_pressed() 
+        result = get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power)
+        print(result)
+        print(player_dict["health"], enemy_dict["health"])
+    return enemy_dict["name"] if player_dict["health"] <= 0 else player_dict["name"]
 
 
 def get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power):
-    if avatar_move == "k" and enemy_move == "Attack":
+    if avatar_move == ATTACK and enemy_move == ATTACK:
         player_dict["health"] = player_dict["health"] - single_enemy_power
         enemy_dict["health"] = enemy_dict["health"] - single_player_power
-    elif avatar_move == "k" and enemy_move == "Defence":
+        comment = "Players attack each other"
+    elif avatar_move == ATTACK and enemy_move == DEFFENCE:
         enemy_defence = single_player_power - single_enemy_power
         if enemy_defence <= 0:
             enemy_defence = 0
         enemy_dict["health"] = enemy_dict["health"] - enemy_defence
-    elif avatar_move == "l" and enemy_move == "Attack":
+        comment = f"Enemy partially block your attack"
+    elif avatar_move == DEFFENCE and enemy_move == ATTACK:
         player_defence = single_enemy_power - single_player_power
         if player_defence <= 0:
             player_defence = 0
         player_dict["health"] = player_dict["health"] - player_defence
+        comment = "You partially block enemy attack"
+    else:
+        comment = "Players block each other"
+    return comment
+
 
 
 def get_avatar_single_move_power(strength):
     single_move_power = 0
     if strength in range(1, 15):
-        single_move_power = random.choice([0.05, 0.1, 0.15])
+        single_move_power = random.choice([0.55, 0.6, 0.65])
     elif strength in range(15, 30):
-        single_move_power = random.choice([0.2, 0.25, 0.30])
+        single_move_power = random.choice([0.7, 0.75, 0.8])
     elif strength > 30:
-        single_move_power = random.choice([0.35, 0.4, 0.45])
+        single_move_power = random.choice([0.85, 0.9, 0.95])
     return strength
 
 
@@ -301,6 +312,7 @@ def check_player_enemies_position(player, enemies):
     for enemy_key, value in enemies.items():
         if value["pos_X"] == player["pos_X"] and value["pos_Y"] == player["pos_Y"]:
             util.clear_screen()
-            input("Aaa")
-            key = util.key_pressed()
-            enemy_encounter(key, player, value)
+            ui.print_enemy(value["file name"])
+            print(f"Attack --> k    Defence --> l")
+            # ui.print_game_statistics(player, value, "2")
+            print(enemy_encounter(player, value))
