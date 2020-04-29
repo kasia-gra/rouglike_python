@@ -108,7 +108,7 @@ def get_health_and_strenght(start_range, end_range):
 
 def create_avatar_attributes(coordinates, name, health_points, strenght_points, avatar_type="opponent"):
     pos_X, pos_Y = coordinates
-    return {"pos_X": pos_X, "pos_Y": pos_Y, "name": name, "type": avatar_type, "health": health_points, "strength": strenght_points, "file name": f"enemy{name}.txt"}
+    return {"pos_X": pos_X, "pos_Y": pos_Y, "name": name, "type": avatar_type, "health": health_points, "strenght": strenght_points, "file name": f"enemy{name}.txt"}
 
 
 def get_coordinates(entity):
