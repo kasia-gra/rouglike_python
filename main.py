@@ -104,6 +104,7 @@ def generate_enemies(maps):
 
 
 def switch_map(level, maps):
+    engine.clear_board_from_enemies(maps[level - 1])
     return maps[level - 1]
 
 def generate_doors_status_and_position(maps):

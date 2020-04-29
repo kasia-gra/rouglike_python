@@ -135,7 +135,7 @@ def is_move_possible(entity, elements_to_check, board, direction):
     y = direction_to_check[1]
     # if board[y][x] not in elements_to_check:
     if entity["name"] in "234":
-        if board[y][x] in ["EX", "EN", "elixir", "key", "sword", "cloak", "whip", "2", "3", "4"]:
+        if board[y][x] in [WALL, "EX", "EN", "elixir", "key", "sword", "cloak", "whip", "2", "3", "4"]:
             return False
     if board[y][x] == WALL:
         return False
@@ -331,3 +331,11 @@ def generate_enemy_key_to_delete(enemies):
             if value_key == "health":
                 if enemy_value <= 0:
                     return key
+
+
+def clear_board_from_enemies(board):
+    for row_index, row in enumerate(board):
+        for column_index, column in enumerate(row):
+            if board[row_index][column_index] in "234":
+                board[row_index][column_index] = " "
+    return board
