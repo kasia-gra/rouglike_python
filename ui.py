@@ -57,12 +57,9 @@ def print_enemy(filename):
         print(enemy)
 
 
-def print_game_statistics(player, enemies, name):
-    atributes_to_print = ["strength", "helath"]
-    for k,v in enemies.items():
-        if v["name"] == name:
-            enemies = v
-    statistics = zip(player.items(), enemies.items())
+def print_game_statistics(player, enemy):
+    atributes_to_print = ["strength", "health"]
+    statistics = zip(player.items(), enemy.items())
     game_stat_formatted = (f"Player statistics              Enemy statistics\n")
     for item in statistics:
         if item[0][0] in atributes_to_print:

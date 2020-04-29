@@ -7,7 +7,6 @@ import ui
 import files_managment
 
 
-
 UP = 0
 LEFT = 1
 DOWN = 2
@@ -74,11 +73,11 @@ def generate_enemies_on_all_levels(number_of_enemies):
 def generate_single_level_enemy(name, player_start_pos_X, player_start_pos_Y, board):
     coordinates = get_random_coordinates(player_start_pos_X, player_start_pos_Y, board)
     if name == ENEMY_NAMES[0]:
-        health, strength = get_health_and_strength(1, 15)
+        health, strength = get_health_and_strength(1, 7)
     elif name == ENEMY_NAMES[1]:
-        health, strength = get_health_and_strength(15, 30)
+        health, strength = get_health_and_strength(8, 15)
     else:
-        health, strength = get_health_and_strength(30, 50)
+        health, strength = get_health_and_strength(15, 25)
     return coordinates, health, strength
 
 
@@ -260,20 +259,23 @@ def choose_avatar(DIRPATH, FIGHT_ATRIBUTES):
 
 def enemy_encounter(player_dict, enemy_dict):
     fight_in_progress = True
+    print(f'Player strength: {player_dict["strength"]}     Enemy strength: {enemy_dict["strength"]}')
     while fight_in_progress:
         single_player_power = get_avatar_single_move_power(player_dict["strength"])
         single_enemy_power = get_avatar_single_move_power(enemy_dict["strength"])
         enemy_move = random.choice([ATTACK, DEFFENCE])
-        avatar_move = util.key_pressed() 
-        result = get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power)
-        print(result)
-        print(round(player_dict["health"], 2), round(enemy_dict["health"], 2))
-        if player_dict["health"] <= 0:
-            util.clear_screen()
-            print("GAME OVER\nYou loose!")
-            exit()
-        elif enemy_dict["health"] <= 0:
-            fight_in_progress = False
+        avatar_move = util.key_pressed()
+        if avatar_move == ATTACK or avatar_move == DEFFENCE:
+            result = get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power)
+            print('player health: %.2f        Enemy health: %.2f' % (player_dict["health"], enemy_dict["health"]))
+            if player_dict["health"] <= 0:
+                util.clear_screen()
+                print("GAME OVER\nYou loose!")
+                exit()
+            elif enemy_dict["health"] <= 0:
+                print("Enemy defeated!")
+                time.sleep(1)
+                fight_in_progress = False
 
 
 def get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power):
@@ -293,8 +295,10 @@ def get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, singl
             player_defence = 0
         player_dict["health"] = player_dict["health"] - player_defence
         comment = "You partially block enemy attack"
-    else:
+    elif avatar_move == DEFFENCE and enemy_move == DEFFENCE:
         comment = "Players block each other"
+    else:
+        comment = ""
     return comment
 
 
@@ -315,8 +319,7 @@ def check_player_enemies_position(player, enemies):
             util.clear_screen()
             ui.print_enemy(value["file name"])
             print(f"Attack --> k    Defence --> l")
-            # ui.print_game_statistics(player, value, "2")
-            print(enemy_encounter(player, value))
+            enemy_encounter(player, value)
 
 
 def generate_enemy_key_to_delete(enemies):

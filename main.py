@@ -4,7 +4,7 @@ import ui
 import random
 import os
 import files_managment
-import time
+
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
