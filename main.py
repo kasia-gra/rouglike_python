@@ -20,7 +20,6 @@ def create_player():
     '''
     Creates a 'player' dictionary for storing all player related informations - i.e. player icon, player position.
     Fell free to extend this dictionary!
-
     Returns:
     dictionary
     '''
@@ -61,6 +60,8 @@ def main():
         for key, value in enemies[level - 1].items():
             engine.place_entitiy(board, value)
         ui.display_board(board)
+        print(player_inventory)
+        print(player)
         key = util.key_pressed()
         engine.move_player(key, player, board)
         player_next_step = engine.get_player_next_step(player, board)
@@ -69,6 +70,8 @@ def main():
         elif player_next_step in ui.ITEMS:
             engine.collect_item(player_next_step, ui.ITEMS, player)
             player_inventory = player["inventory"]
+            for fight_atribute in FIGHT_ATRIBUTES:
+                player[fight_atribute] += int(ui.ITEMS[player_next_step][fight_atribute])
         if key in "wsad":
             for enemy_key, value in enemies[level - 1].items():
                 engine.move_player(random.choice(["w", "s", "a", "d"]), value, board)
@@ -76,6 +79,7 @@ def main():
             is_running = False
         elif key == "i":
             chagne_mode_from_game_to_inventory(player_inventory)
+        engine.check_player_enemies_position(player, enemies[level - 1])
         util.clear_screen()
 
 

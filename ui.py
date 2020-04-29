@@ -18,7 +18,6 @@ MAP_SCHEME = {"@": "@", " ": " ", "X": colored("*"), "EX": colored("D", "white",
 def display_board(board):
     '''
     Displays complete game board on the screen
-
     Returns:
     Nothing
     '''
