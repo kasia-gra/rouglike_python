@@ -70,3 +70,15 @@ def print_game_statistics(player, enemies, name):
             game_stat_formatted += (f"{item[0][0]} {item[0][1]}                      {item[1][0]} {item[1][1]}")
             game_stat_formatted += "\n"
     print(game_stat_formatted)
+
+
+def print_avatar(DIRPATH, avatar_index):
+    avatars_atributes = files_managment.import_data_to_dict(DIRPATH, "avatars_files", "avatars_atributes.csv")
+    avatars_atributes_for_printing = files_managment.import_data_to_dict(DIRPATH, "avatars_files", "avatar_atributes_for_printing.csv")
+    all_avatars = list(avatars_atributes.keys())
+    avatar_image_file = avatars_atributes_for_printing[all_avatars[avatar_index]]["image"]
+    avatar_image = files_managment.read_image_file(DIRPATH, "avatars_files", avatar_image_file)
+    avatar_details = f"{avatar_image}\
+                        \
+                        AVATAR: {all_avatars[avatar_index]} ATRIBUTES: {avatars_atributes[all_avatars[avatar_index]]}"
+    print(avatar_details)

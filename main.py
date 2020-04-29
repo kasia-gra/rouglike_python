@@ -45,9 +45,11 @@ def chagne_mode_from_game_to_inventory(INVENTORY):
             print("ooops you need to press 'y' to go back to game")
 
 
+
+
+
 def choose_avatar(DIRPATH):
     avatars_atributes = files_managment.import_data_to_dict(DIRPATH, "avatars_files", "avatars_atributes.csv")
-    avatars_atributes_for_printing = files_managment.import_data_to_dict(DIRPATH, "avatars_files", "avatar_atributes_for_printing.csv")
     avatar_chosen = False
     avatar_index = 0
     all_avatars = list(avatars_atributes.keys())
@@ -64,13 +66,10 @@ def choose_avatar(DIRPATH):
             avatar_index = len(all_avatars) - 1
         elif key == " ":
             avatar_chosen = True
+        else:
+            continue
         os.system("clear")
-        avatar_image_file = avatars_atributes_for_printing[all_avatars[avatar_index]]["image"]
-        avatar_image = files_managment.read_image_file(DIRPATH, "avatars_files", avatar_image_file)
-        avatar_details = f"{avatar_image}\
-                            \
-                            AVATAR: {all_avatars[avatar_index]} ATRIBUTES: {avatars_atributes[all_avatars[avatar_index]]}"
-        print(avatar_details)
+        ui.print_avatar(DIRPATH, avatar_index)
     return avatars_atributes[all_avatars[avatar_index]], all_avatars[avatar_index]
 
 
