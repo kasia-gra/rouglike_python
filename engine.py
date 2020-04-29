@@ -99,7 +99,7 @@ def get_random_coordinates(start_pos_X, start_pos_Y, board):
 
 
 def check_random_coordinates(pos_X, pos_Y, board):
-    return board[pos_X][pos_Y] == " " or board[pos_X][pos_Y] == "@"
+    return board[pos_X][pos_Y] == " "
 
 
 def get_health_and_strength(start_range, end_range):
@@ -255,8 +255,9 @@ def choose_avatar(DIRPATH, FIGHT_ATRIBUTES):
         else:
             pass
         os.system("clear")
-        ui.print_avatar(DIRPATH, avatar_index)
-    return avatars_atributes[all_avatars[avatar_index]], all_avatars[avatar_index]
+        ui.print_avatar(DIRPATH, avatar_index, FIGHT_ATRIBUTES)
+        print(avatars_atributes[all_avatars[avatar_index]])
+    return avatars_atributes[all_avatars[avatar_index]]
 
 
 def enemy_encounter(key_pressed, player_dict, enemy_dict):
@@ -300,8 +301,6 @@ def check_player_enemies_position(player, enemies):
     for enemy_key, value in enemies.items():
         if value["pos_X"] == player["pos_X"] and value["pos_Y"] == player["pos_Y"]:
             util.clear_screen()
+            input("Aaa")
             key = util.key_pressed()
             enemy_encounter(key, player, value)
-        ui.print_avatar(DIRPATH, avatar_index, FIGHT_ATRIBUTES)
-        print(avatars_atributes[all_avatars[avatar_index]])
-    return avatars_atributes[all_avatars[avatar_index]]

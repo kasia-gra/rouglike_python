@@ -76,6 +76,7 @@ def main():
             is_running = False
         elif key == "i":
             chagne_mode_from_game_to_inventory(player_inventory)
+        engine.check_player_enemies_position(player, enemies[level - 1])
         util.clear_screen()
 
 
