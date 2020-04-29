@@ -64,6 +64,7 @@ def main():
         ui.display_board(board)
         print(player_inventory)
         print(player)
+        print(generate_doors_status_and_position(maps))
         key = util.key_pressed()
         engine.move_player(key, player, board)
         player_next_step = engine.get_player_next_step(player, board)
@@ -104,6 +105,19 @@ def generate_enemies(maps):
 
 def switch_map(level, maps):
     return maps[level - 1]
+
+def generate_doors_status_and_position(maps):
+    exit_doors_statuses = {}
+    for index in range(NUMBER_OF_MAPS):
+        single_doors_dictionary = {}
+        for map_row_index in range(len(maps[index])):
+            if "EX" in maps[index][map_row_index]:
+                EX_doors_pos_y = map_row_index + 1
+                EX_doors_pos_X = maps[index][map_row_index].index("EX") + 1
+                single_doors_dictionary["doors_position"] = (EX_doors_pos_X, EX_doors_pos_y)  
+                single_doors_dictionary["status"] = "closed"
+        exit_doors_statuses[index + 1] = single_doors_dictionary
+    return exit_doors_statuses
 
 if __name__ == "__main__":
     main()
