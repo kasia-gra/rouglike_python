@@ -80,5 +80,5 @@ def print_avatar(DIRPATH, avatar_index, FIGHT_ATRIBUTES):
     avatar_all_atributes = avatars_atributes[all_avatars[avatar_index]]
     avatar_details = str(avatar_image) +  "\n" + str(all_avatars[avatar_index]).upper() + ":\n"
     for fight_atribute in FIGHT_ATRIBUTES:
-        avatar_details += str(fight_atribute.rjust(10)) + " - " +  str(avatars_atributes[all_avatars[avatar_index]][fight_atribute].rjust(2)) + "\n"
+        avatar_details += str(fight_atribute).rjust(10) + " - " +  str(avatars_atributes[all_avatars[avatar_index]][fight_atribute]).rjust(2) + "\n"
     print(avatar_details)
