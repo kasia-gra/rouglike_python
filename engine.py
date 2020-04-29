@@ -261,19 +261,19 @@ def choose_avatar(DIRPATH, FIGHT_ATRIBUTES):
 def enemy_encounter(player_dict, enemy_dict):
     fight_in_progress = True
     while fight_in_progress:
-        if player_dict["health"] <= 0:
-            print("GAME OVER\nYou loose!")
-            exit()
-        elif enemy_dict["health"] <= 0:
-            del enemy_dict
-            fight_in_progress = True
         single_player_power = get_avatar_single_move_power(player_dict["strength"])
         single_enemy_power = get_avatar_single_move_power(enemy_dict["strength"])
         enemy_move = random.choice([ATTACK, DEFFENCE])
         avatar_move = util.key_pressed() 
         result = get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power)
         print(result)
-        print(player_dict["health"], enemy_dict["health"])
+        print(round(player_dict["health"], 2), round(enemy_dict["health"], 2))
+        if player_dict["health"] <= 0:
+            util.clear_screen()
+            print("GAME OVER\nYou loose!")
+            exit()
+        elif enemy_dict["health"] <= 0:
+            fight_in_progress = False
 
 
 def get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power):
@@ -301,11 +301,11 @@ def get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, singl
 def get_avatar_single_move_power(strength):
     single_move_power = 0
     if strength in range(1, 15):
-        single_move_power = random.choice([0.55, 0.6, 0.65])
+        single_move_power = random.choice([3.55, 3.6, 3.65])
     elif strength in range(15, 30):
-        single_move_power = random.choice([0.7, 0.75, 0.8])
+        single_move_power = random.choice([3.7, 3.75, 3.8])
     elif strength > 30:
-        single_move_power = random.choice([0.85, 0.9, 0.95])
+        single_move_power = random.choice([3.85, 3.9, 3.95])
     return single_move_power
 
 
@@ -317,3 +317,11 @@ def check_player_enemies_position(player, enemies):
             print(f"Attack --> k    Defence --> l")
             # ui.print_game_statistics(player, value, "2")
             print(enemy_encounter(player, value))
+
+
+def generate_enemy_key_to_delete(enemies):
+    for key, value in enemies.items():
+        for value_key, enemy_value in value.items():
+            if value_key == "health":
+                if enemy_value <= 0:
+                    return key

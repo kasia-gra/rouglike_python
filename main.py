@@ -4,6 +4,7 @@ import ui
 import random
 import os
 import files_managment
+import time
 
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
@@ -80,6 +81,9 @@ def main():
         elif key == "i":
             chagne_mode_from_game_to_inventory(player_inventory)
         engine.check_player_enemies_position(player, enemies[level - 1])
+        key_to_delete = engine.generate_enemy_key_to_delete(enemies[level - 1])
+        if key_to_delete is not None:
+            del enemies[level - 1][key_to_delete]
         util.clear_screen()
 
 
