@@ -12,7 +12,6 @@ PLAYER_START_Y = 3
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20
 
-INVENTORY = {}
 NUMBER_OF_MAPS = 3
 DIRPATH = os.getcwd()
 
@@ -27,7 +26,7 @@ def create_player():
     health = 40
     strength = 10
     player = engine.create_avatar_attributes((PLAYER_START_X, PLAYER_START_Y), PLAYER_ICON, health, strength, "player")
-    player["inventory"] = INVENTORY
+    player["inventory"] = {}
     return player
 
 
@@ -49,6 +48,7 @@ def chagne_mode_from_game_to_inventory(INVENTORY):
 def main():
     engine.choose_avatar(DIRPATH)
     level = 1
+    player_inventory = {}
     player = create_player()
     maps = generate_maps()
     enemies = generate_enemies(maps)
@@ -67,13 +67,14 @@ def main():
             level = engine.use_doors(player_next_step, level, player)
         elif player_next_step in ui.ITEMS:
             engine.collect_item(player_next_step, ui.ITEMS, player)
+            player_inventory = player["inventory"]
         if key in "wsad":
             for enemy_key, value in enemies[level - 1].items():
                 engine.move_player(random.choice(["w", "s", "a", "d"]), value, board)
         elif key == 'q':
             is_running = False
         elif key == "i":
-            chagne_mode_from_game_to_inventory(INVENTORY)
+            chagne_mode_from_game_to_inventory(player_inventory)
         util.clear_screen()
 
 
