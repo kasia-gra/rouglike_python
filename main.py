@@ -54,6 +54,7 @@ def main():
     player["inventory"] = {}
     maps = generate_maps()
     enemies = generate_enemies(maps)
+    exit_doors_statuses = generate_doors_status_and_position(maps)
     util.clear_screen()
     is_running = True
     while is_running:
@@ -66,10 +67,10 @@ def main():
         print(player)
         print(generate_doors_status_and_position(maps))
         key = util.key_pressed()
-        engine.move_player(key, player, board)
+        engine.move_player(key, player, board, exit_doors_statuses, level)
         player_next_step = engine.get_player_next_step(player, board)
         if player_next_step == "EX" or player_next_step == "EN":
-            level = engine.use_doors(player_next_step, level, player)
+            level, exit_doors_statuses = engine.use_doors(player_next_step, level, player, exit_doors_statuses)
         elif player_next_step in ui.ITEMS:
             engine.collect_item(player_next_step, ui.ITEMS, player)
             player_inventory = player["inventory"]
@@ -77,7 +78,7 @@ def main():
                 player[fight_atribute] += int(ui.ITEMS[player_next_step][fight_atribute])
         if key in "wsad":
             for enemy_key, value in enemies[level - 1].items():
-                engine.move_player(random.choice(["w", "s", "a", "d"]), value, board)
+                engine.move_player(random.choice(["w", "s", "a", "d"]), value, board, exit_doors_statuses, level)
         elif key == 'q':
             is_running = False
         elif key == "i":

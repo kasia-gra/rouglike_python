@@ -40,6 +40,7 @@ def update_board(level, board):
         writer = csv.writer(file)
         writer.writerows(board)
 
+
 def put_player_on_board(board, player):
     '''
     Modifies the game board by placing the player icon at its coordinates.
@@ -120,7 +121,7 @@ def clear_my_trace(board, entity):
     board[y][x] = ' '
 
 
-def is_move_possible(entity, elements_to_check, board, direction):
+def is_move_possible(entity, elements_to_check, board, direction, exit_doors_statuses, level):
     x, y = get_coordinates(entity)
     if direction == UP:
         direction_to_check = (x, y-1)
@@ -136,6 +137,11 @@ def is_move_possible(entity, elements_to_check, board, direction):
     # if board[y][x] not in elements_to_check:
     if entity["name"] in "234":
         if board[y][x] in [WALL, "EX", "EN", "elixir", "key", "sword", "cloak", "whip", "2", "3", "4"]:
+            return False
+    elif board[y][x] == "EX" and "key" not in entity['inventory']:
+        if exit_doors_statuses[level]["status"] == "closed":
+            print("you don't have a key to open the door")
+            time.sleep(1)
             return False
     if board[y][x] == WALL:
         return False
@@ -158,14 +164,28 @@ def get_player_next_step(player, board):
     return player_next_step
 
 
-def use_doors(player_next_step, level, player):
+def use_doors(player_next_step, level, player, exit_doors_statuses):
     player_default_coordinates = (3, 3)
     if player_next_step == "EX":
+        player["inventory"].pop("key", None)
+        exit_doors_statuses[level]["status"] = "open"
         level += 1
     elif player_next_step == "EN":
         level -= 1
     mark_new_coordinates(player, player_default_coordinates)
-    return level
+    return level, exit_doors_statuses
+
+
+# def use_doors(player_next_step, level, player, exit_doors_statuses):
+#     player_default_coordinates = (3, 3)
+#     if player_next_step == "EX" and exit_doors_statuses[level]["status"] == "open":
+#         level += 1
+#         player["inventory"]["key"] -= 1
+#         mark_new_coordinates(player, player_default_coordinates)
+#     elif player_next_step == "EN":
+#         level -= 1
+#         mark_new_coordinates(player, player_default_coordinates)
+#     return level
 
 
 def collect_item(player_next_step, ITEMS, player):
@@ -184,15 +204,15 @@ def move(direction, entity, board):
         entity["pos_X"] += 1
 
 
-def move_player(key, entity, board):
+def move_player(key, entity, board, exit_doors_statuses, level):
     elements_to_check = [' ']
-    if key == 'w' and is_move_possible(entity, elements_to_check, board, UP):
+    if key == 'w' and is_move_possible(entity, elements_to_check, board, UP, exit_doors_statuses, level):
         move(UP, entity, board)
-    if key == 'a' and is_move_possible(entity, elements_to_check, board, LEFT):
+    if key == 'a' and is_move_possible(entity, elements_to_check, board, LEFT, exit_doors_statuses, level):
         move(LEFT, entity, board)
-    if key == 's' and is_move_possible(entity, elements_to_check, board, DOWN):
+    if key == 's' and is_move_possible(entity, elements_to_check, board, DOWN, exit_doors_statuses, level):
         move(DOWN, entity, board)
-    if key == 'd' and is_move_possible(entity, elements_to_check, board, RIGHT):
+    if key == 'd' and is_move_possible(entity, elements_to_check, board, RIGHT, exit_doors_statuses, level):
         move(RIGHT, entity, board)
 
 
