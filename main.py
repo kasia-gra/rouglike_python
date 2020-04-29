@@ -8,7 +8,7 @@ import files_managment
 PLAYER_ICON = '@'
 PLAYER_START_X = 3
 PLAYER_START_Y = 3
-FIGHT_ATRIBUTES = ["health", "strenght"]
+FIGHT_ATRIBUTES = ["health", "strength"]
 
 BOARD_WIDTH = 30
 BOARD_HEIGHT = 20

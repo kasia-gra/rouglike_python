@@ -59,8 +59,8 @@ def create_enemies(player_start_pos_X, player_start_pos_Y, board, number_of_enem
     for index, number in enumerate(number_of_enemies, start=1):
         name = number
         for enemy in range(len(number_of_enemies)):
-            coordinates, health, strenght = generate_single_level_enemy(name,player_start_pos_X, player_start_pos_Y, board)
-            enemies[f"Enemy {index}"] = create_avatar_attributes(coordinates, name, health, strenght)
+            coordinates, health, strength = generate_single_level_enemy(name,player_start_pos_X, player_start_pos_Y, board)
+            enemies[f"Enemy {index}"] = create_avatar_attributes(coordinates, name, health, strength)
     return enemies
 
 
@@ -74,12 +74,12 @@ def generate_enemies_on_all_levels(number_of_enemies):
 def generate_single_level_enemy(name, player_start_pos_X, player_start_pos_Y, board):
     coordinates = get_random_coordinates(player_start_pos_X, player_start_pos_Y, board)
     if name == ENEMY_NAMES[0]:
-        health, strenght = get_health_and_strenght(1, 15)
+        health, strength = get_health_and_strength(1, 15)
     elif name == ENEMY_NAMES[1]:
-        health, strenght = get_health_and_strenght(15, 30)
+        health, strength = get_health_and_strength(15, 30)
     else:
-        health, strenght = get_health_and_strenght(30, 50)
-    return coordinates, health, strenght
+        health, strength = get_health_and_strength(30, 50)
+    return coordinates, health, strength
 
 
 def get_random_coordinates(start_pos_X, start_pos_Y, board):
@@ -100,15 +100,15 @@ def check_random_coordinates(pos_X, pos_Y, board):
     return board[pos_X][pos_Y] == " "
 
 
-def get_health_and_strenght(start_range, end_range):
+def get_health_and_strength(start_range, end_range):
     health = random.randint(start_range, end_range)
-    strenght = random.randint(start_range, end_range)
-    return health, strenght
+    strength = random.randint(start_range, end_range)
+    return health, strength
 
 
-def create_avatar_attributes(coordinates, name, health_points, strenght_points, avatar_type="opponent"):
+def create_avatar_attributes(coordinates, name, health_points, strength_points, avatar_type="opponent"):
     pos_X, pos_Y = coordinates
-    return {"pos_X": pos_X, "pos_Y": pos_Y, "name": name, "type": avatar_type, "health": health_points, "strenght": strenght_points, "file name": f"enemy{name}.txt"}
+    return {"pos_X": pos_X, "pos_Y": pos_Y, "name": name, "type": avatar_type, "health": health_points, "strength": strength_points, "file name": f"enemy{name}.txt"}
 
 
 def get_coordinates(entity):
@@ -298,13 +298,13 @@ def get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, singl
     return comment
 
 
-def get_avatar_single_move_power(strenght):
+def get_avatar_single_move_power(strength):
     single_move_power = 0
-    if strenght in range(1, 15):
+    if strength in range(1, 15):
         single_move_power = random.choice([0.55, 0.6, 0.65])
-    elif strenght in range(15, 30):
+    elif strength in range(15, 30):
         single_move_power = random.choice([0.7, 0.75, 0.8])
-    elif strenght > 30:
+    elif strength > 30:
         single_move_power = random.choice([0.85, 0.9, 0.95])
     return single_move_power
 
