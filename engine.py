@@ -137,15 +137,21 @@ def get_character_in_position(x, y, board):
     return board[y][x]
 
 
+def get_player_next_step(player, board):
+    x, y = get_coordinates(player)
+    player_next_step = get_character_in_position(x, y, board)
+    return player_next_step
+
+
 def check_player_next_step(player, level, board, ITEMS):
     x, y = get_coordinates(player)
     player_next_step = get_character_in_position(x, y, board)
     if player_next_step == "EX":
         level += 1
-        move(LEFT, player, board)
+        player["pos_X"] -= 1
     elif player_next_step == "EN":
         level -= 1
-        move(LEFT, player, board) 
+        player["pos_X"] -= 1 
     elif player_next_step in ITEMS.keys():
         player["inventory"] = add_item_to_inventory(player["inventory"], player_next_step)
     return level
