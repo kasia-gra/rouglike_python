@@ -1,4 +1,4 @@
 avatar,pos_X,pos_Y,name,avatar_type,health,strength,image
-warrior,3,3,warrior,player,10,40,warrior.txt
-wizard,3,3,wizard,player,25,25,wizard.txt
-fairy,3,3,fairy,player,40,10,fairy.txt
+warrior,3,3,@,player,10,40,warrior.txt
+wizard,3,3,@,player,25,25,wizard.txt
+fairy,3,3,@,player,40,10,fairy.txt

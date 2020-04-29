@@ -16,18 +16,18 @@ BOARD_HEIGHT = 20
 NUMBER_OF_MAPS = 3
 DIRPATH = os.getcwd()
 
-def create_player():
-    '''
-    Creates a 'player' dictionary for storing all player related informations - i.e. player icon, player position.
-    Fell free to extend this dictionary!
-    Returns:
-    dictionary
-    '''
-    health = 40
-    strength = 10
-    player = engine.create_avatar_attributes((PLAYER_START_X, PLAYER_START_Y), PLAYER_ICON, health, strength, "player")
-    player["inventory"] = {}
-    return player
+# def create_player():
+#     '''
+#     Creates a 'player' dictionary for storing all player related informations - i.e. player icon, player position.
+#     Fell free to extend this dictionary!
+#     Returns:
+#     dictionary
+#     '''
+#     health = 40
+#     strength = 10
+#     player = engine.create_avatar_attributes((PLAYER_START_X, PLAYER_START_Y), PLAYER_ICON, health, strength, "player")
+#     player["inventory"] = {}
+#     return player
 
 
 def chagne_mode_from_game_to_inventory(INVENTORY):
@@ -46,10 +46,11 @@ def chagne_mode_from_game_to_inventory(INVENTORY):
 
 
 def main():
-    engine.choose_avatar(DIRPATH, FIGHT_ATRIBUTES)
     level = 1
     player_inventory = {}
-    player = create_player()
+    # player = create_player()
+    player = engine.choose_avatar(DIRPATH, FIGHT_ATRIBUTES)
+    player["inventory"] = {}
     maps = generate_maps()
     enemies = generate_enemies(maps)
     util.clear_screen()
