@@ -261,6 +261,12 @@ def choose_avatar(DIRPATH, FIGHT_ATRIBUTES):
 def enemy_encounter(player_dict, enemy_dict):
     fight_in_progress = True
     while fight_in_progress:
+        if player_dict["health"] <= 0:
+            print("GAME OVER\nYou loose!")
+            exit()
+        elif enemy_dict["health"] <= 0:
+            del enemy_dict
+            fight_in_progress = True
         single_player_power = get_avatar_single_move_power(player_dict["strength"])
         single_enemy_power = get_avatar_single_move_power(enemy_dict["strength"])
         enemy_move = random.choice([ATTACK, DEFFENCE])
@@ -268,12 +274,6 @@ def enemy_encounter(player_dict, enemy_dict):
         result = get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power)
         print(result)
         print(player_dict["health"], enemy_dict["health"])
-        if player_dict["health"] <= 0:
-            print("GAME OVER\n You loose!")
-            exit()
-        elif enemy_dict["health"] <= 0:
-            del enemy_dict
-            fight_in_progress = True
 
 
 def get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power):
