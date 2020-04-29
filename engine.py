@@ -81,16 +81,21 @@ def generate_single_level_enemy(name, player_start_pos_X, player_start_pos_Y, bo
 
 
 def get_random_coordinates(start_pos_X, start_pos_Y, board):
-    enemy_player_distance_index_X = [index for index in range(start_pos_X - 3, start_pos_X + 4) if index >= 0]
-    enemy_player_distance_index_Y = [index for index in range(start_pos_Y - 3, start_pos_Y + 4) if index >= 0]
-    index_X = [index for index in range(len(board) - 1) if index not in enemy_player_distance_index_X]
-    index_Y = [index for index in range(len(board) - 1) if index not in enemy_player_distance_index_Y]
-    pos_X = random.choice(index_X)
-    pos_Y = random.choice(index_Y)
-    if get_character_in_position(pos_X, pos_Y, board):
-        return pos_X, pos_Y
-    else:
-        get_random_coordinates(start_pos_X, start_pos_Y, board)
+    enemy_player_distance_index_X = [index for index in range(start_pos_X - 3, start_pos_X + 4) if index > 0]
+    enemy_player_distance_index_Y = [index for index in range(start_pos_Y - 3, start_pos_Y + 4) if index > 0]
+    index_X = [index for index in range(len(board) - 2) if index not in enemy_player_distance_index_X]
+    index_Y = [index for index in range(len(board) - 2) if index not in enemy_player_distance_index_Y]
+    check_coordinates = True
+    while check_coordinates:
+        pos_X = random.choice(index_X)
+        pos_Y = random.choice(index_Y)
+        if check_random_coordinates(pos_X, pos_Y, board):
+            check_coordinates = False
+    return pos_X, pos_Y
+
+
+def check_random_coordinates(pos_X, pos_Y, board):
+    return board[pos_X][pos_Y] == " "
 
 
 def get_health_and_strength(start_range, end_range):
@@ -240,3 +245,39 @@ def choose_avatar(DIRPATH):
         print(avatar_details)
     return avatars_atributes[all_avatars[avatar_index]], all_avatars[avatar_index]
 
+
+def enemy_encounter(key_pressed, player_dict, enemy_dict):
+    while player_dict["health"] > 0 or enemy_dict["health"] > 0:
+        single_player_power = get_avatar_single_move_power(player_dict["strength"])
+        single_enemy_power = get_avatar_single_move_power(enemy_dict["strength"])
+        enemy_move = random.choice(["Attack", "Defense"])
+        avatar_move = key_pressed  # "k" for attack, "l" for defense
+        get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power)
+    return enemy_dict["name"] if player_dict["health"] == 0 else player_dict["name"]
+
+
+def get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power):
+    if avatar_move == "k" and enemy_move == "Attack":
+        player_dict["health"] = player_dict["health"] - single_enemy_power
+        enemy_dict["health"] = enemy_dict["health"] - single_player_power
+    elif avatar_move == "k" and enemy_move == "Defence":
+        enemy_defence = single_player_power - single_enemy_power
+        if enemy_defence <= 0:
+            enemy_defence = 0
+        enemy_dict["health"] = enemy_dict["health"] - enemy_defence
+    elif avatar_move == "l" and enemy_move == "Attack":
+        player_defence = single_enemy_power - single_player_power
+        if player_defence <= 0:
+            player_defence = 0
+        player_dict["health"] = player_dict["health"] - player_defence
+
+
+def get_avatar_single_move_power(strength):
+    single_move_power = 0
+    if strength in range(1, 15):
+        single_move_power = random.choice[0.05, 0.1, 0.15]
+    elif strength in range(15, 30):
+        single_move_power = random.choice[0.2, 0.25, 0.30]
+    elif strength > 30:
+        single_move_power = random.choice[0.35, 0.4, 0.45]
+    return strength
