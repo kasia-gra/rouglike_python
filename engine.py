@@ -134,6 +134,9 @@ def is_move_possible(entity, elements_to_check, board, direction):
     x = direction_to_check[0]
     y = direction_to_check[1]
     # if board[y][x] not in elements_to_check:
+    if entity["name"] in "234":
+        if board[y][x] in ["EX", "EN", "elixir", "key", "sword", "cloak", "whip", "2", "3", "4"]:
+            return False
     if board[y][x] == WALL:
         return False
     return True
