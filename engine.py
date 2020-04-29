@@ -147,18 +147,18 @@ def get_player_next_step(player, board):
     return player_next_step
 
 
-def check_player_next_step(player, level, board, ITEMS):
-    x, y = get_coordinates(player)
-    player_next_step = get_character_in_position(x, y, board)
+def use_doors(player_next_step, level, player):
     if player_next_step == "EX":
         level += 1
         player["pos_X"] -= 1
     elif player_next_step == "EN":
         level -= 1
         player["pos_X"] -= 1 
-    elif player_next_step in ITEMS.keys():
-        player["inventory"] = add_item_to_inventory(player["inventory"], player_next_step)
     return level
+
+
+def collect_item(player_next_step, ITEMS, player):
+    player["inventory"] = add_item_to_inventory(player["inventory"], player_next_step)
 
 
 def move(direction, entity, board):
