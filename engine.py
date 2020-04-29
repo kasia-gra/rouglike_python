@@ -137,6 +137,12 @@ def is_move_possible(entity, elements_to_check, board, direction):
     return True
 
 
+def mark_new_coordinates(entity, coordinates):
+    x, y = coordinates
+    entity["pos_X"] = x
+    entity["pos_Y"] = y
+
+
 def get_character_in_position(x, y, board):
     return board[y][x]
 
@@ -148,12 +154,12 @@ def get_player_next_step(player, board):
 
 
 def use_doors(player_next_step, level, player):
+    player_default_coordinates = (3, 3)
     if player_next_step == "EX":
         level += 1
-        player["pos_X"] -= 1
     elif player_next_step == "EN":
         level -= 1
-        player["pos_X"] -= 1 
+    mark_new_coordinates(player, player_default_coordinates)
     return level
 
 
