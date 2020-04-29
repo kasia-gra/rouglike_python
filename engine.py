@@ -24,11 +24,9 @@ ENEMY_NAMES = ["2", "3", "4"]
 def create_board(level):
     '''
     Creates a new game board based on input parameters.
-
     Args:
     int: The width of the board
     int: The height of the board
-
     Returns:
     list: Game board
     '''
@@ -46,11 +44,9 @@ def update_board(level, board):
 def put_player_on_board(board, player):
     '''
     Modifies the game board by placing the player icon at its coordinates.
-
     Args:
     list: The game board
     dictionary: The player information containing the icon and coordinates
-
     Returns:
     Nothing
     '''
@@ -63,8 +59,8 @@ def create_enemies(player_start_pos_X, player_start_pos_Y, board, number_of_enem
     for index, number in enumerate(number_of_enemies, start=1):
         name = number
         for enemy in range(len(number_of_enemies)):
-            coordinates, health, strength = generate_single_level_enemy(name,player_start_pos_X, player_start_pos_Y, board)
-            enemies[f"Enemy {index}"] = create_avatar_attributes(coordinates, name, health, strength)
+            coordinates, health, strenght = generate_single_level_enemy(name,player_start_pos_X, player_start_pos_Y, board)
+            enemies[f"Enemy {index}"] = create_avatar_attributes(coordinates, name, health, strenght)
     return enemies
 
 
@@ -78,12 +74,12 @@ def generate_enemies_on_all_levels(number_of_enemies):
 def generate_single_level_enemy(name, player_start_pos_X, player_start_pos_Y, board):
     coordinates = get_random_coordinates(player_start_pos_X, player_start_pos_Y, board)
     if name == ENEMY_NAMES[0]:
-        health, strength = get_health_and_strength(1, 15)
+        health, strenght = get_health_and_strenght(1, 15)
     elif name == ENEMY_NAMES[1]:
-        health, strength = get_health_and_strength(15, 30)
+        health, strenght = get_health_and_strenght(15, 30)
     else:
-        health, strength = get_health_and_strength(30, 50)
-    return coordinates, health, strength
+        health, strenght = get_health_and_strenght(30, 50)
+    return coordinates, health, strenght
 
 
 def get_random_coordinates(start_pos_X, start_pos_Y, board):
@@ -104,15 +100,15 @@ def check_random_coordinates(pos_X, pos_Y, board):
     return board[pos_X][pos_Y] == " "
 
 
-def get_health_and_strength(start_range, end_range):
+def get_health_and_strenght(start_range, end_range):
     health = random.randint(start_range, end_range)
-    strength = random.randint(start_range, end_range)
-    return health, strength
+    strenght = random.randint(start_range, end_range)
+    return health, strenght
 
 
-def create_avatar_attributes(coordinates, name, health_points, strength_points, avatar_type="opponent"):
+def create_avatar_attributes(coordinates, name, health_points, strenght_points, avatar_type="opponent"):
     pos_X, pos_Y = coordinates
-    return {"pos_X": pos_X, "pos_Y": pos_Y, "name": name, "type": avatar_type, "health": health_points, "strength": strength_points, "file name": f"enemy{name}.txt"}
+    return {"pos_X": pos_X, "pos_Y": pos_Y, "name": name, "type": avatar_type, "health": health_points, "strength": strenght_points, "file name": f"enemy{name}.txt"}
 
 
 def get_coordinates(entity):
@@ -263,7 +259,8 @@ def choose_avatar(DIRPATH, FIGHT_ATRIBUTES):
 
 
 def enemy_encounter(player_dict, enemy_dict):
-    while player_dict["health"] > 0 or enemy_dict["health"] > 0:
+    fight_in_progress = True
+    while fight_in_progress:
         single_player_power = get_avatar_single_move_power(player_dict["strength"])
         single_enemy_power = get_avatar_single_move_power(enemy_dict["strength"])
         enemy_move = random.choice([ATTACK, DEFFENCE])
@@ -271,7 +268,12 @@ def enemy_encounter(player_dict, enemy_dict):
         result = get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power)
         print(result)
         print(player_dict["health"], enemy_dict["health"])
-    return enemy_dict["name"] if player_dict["health"] <= 0 else player_dict["name"]
+        if player_dict["health"] <= 0:
+            print("GAME OVER\n You loose!")
+            exit()
+        elif enemy_dict["health"] <= 0:
+            del enemy_dict
+            fight_in_progress = True
 
 
 def get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, single_player_power, single_enemy_power):
@@ -296,16 +298,15 @@ def get_encounter_result(avatar_move, enemy_move, player_dict, enemy_dict, singl
     return comment
 
 
-
-def get_avatar_single_move_power(strength):
+def get_avatar_single_move_power(strenght):
     single_move_power = 0
-    if strength in range(1, 15):
+    if strenght in range(1, 15):
         single_move_power = random.choice([0.55, 0.6, 0.65])
-    elif strength in range(15, 30):
+    elif strenght in range(15, 30):
         single_move_power = random.choice([0.7, 0.75, 0.8])
-    elif strength > 30:
+    elif strenght > 30:
         single_move_power = random.choice([0.85, 0.9, 0.95])
-    return strength
+    return single_move_power
 
 
 def check_player_enemies_position(player, enemies):
