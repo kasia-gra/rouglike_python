@@ -141,7 +141,7 @@ def is_move_possible(entity, elements_to_check, board, direction, exit_doors_sta
     elif board[y][x] == "EX" and "key" not in entity['inventory']:
         if exit_doors_statuses[level]["status"] == "closed":
             print("you don't have a key to open the door")
-            time.sleep(1)
+            # time.sleep(1)
             return False
     if board[y][x] == WALL:
         return False
@@ -166,9 +166,11 @@ def get_player_next_step(player, board):
 
 def use_doors(player_next_step, level, player, exit_doors_statuses):
     player_default_coordinates = (3, 3)
-    if player_next_step == "EX":
+    if player_next_step == "EX" and exit_doors_statuses[level]["status"] == "closed":
         player["inventory"].pop("key", None)
         exit_doors_statuses[level]["status"] = "open"
+        level += 1
+    elif player_next_step == "EX" and exit_doors_statuses[level]["status"] == "open":
         level += 1
     elif player_next_step == "EN":
         level -= 1
@@ -270,7 +272,7 @@ def choose_avatar(DIRPATH, FIGHT_ATRIBUTES):
             avatar_index = len(all_avatars) - 1
         elif key == " ":
             print(f"Your avatar is {all_avatars[avatar_index].upper()}")
-            time.sleep(1)
+            # time.sleep(1)
             avatar_chosen = True
         else:
             pass

@@ -33,14 +33,12 @@ DIRPATH = os.getcwd()
 
 def chagne_mode_from_game_to_inventory(INVENTORY):
     while True:
-        try:
+        try: 
             ui.format(INVENTORY)
-            back_to_game = input("Type 'y' if you want to go back to game")
+            back_to_game = input("Type 'y' + enter if you want to go back to game: ")
             if back_to_game == "y":
                 util.clear_screen()
                 break
-            else:
-                raise ValueError
         except ValueError:
             print("ooops you need to press 'y' to go back to game")
 
