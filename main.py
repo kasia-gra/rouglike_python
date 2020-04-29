@@ -63,7 +63,11 @@ def main():
         ui.display_board(board)
         key = util.key_pressed()
         engine.move_player(key, player, board)
-        level = engine.check_player_next_step(player, level, board, ui.ITEMS)
+        player_next_step = engine.get_player_next_step(player, board)
+        if player_next_step == "EX" or player_next_step == "EN":
+            level = engine.use_doors(player_next_step, level, player)
+        elif player_next_step in ui.ITEMS:
+            engine.collect_item(player_next_step, ui.ITEMS, player)
         if key in "wsad":
             for enemy_key, value in enemies[level - 1].items():
                 engine.move_player(random.choice(["w", "s", "a", "d"]), value, board)
