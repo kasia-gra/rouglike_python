@@ -35,10 +35,13 @@ def chagne_mode_from_game_to_inventory(INVENTORY):
     while True:
         try: 
             ui.format(INVENTORY)
-            back_to_game = input("Type 'y' + enter if you want to go back to game: ")
-            if back_to_game == "y":
+            print("Type 'y' if you want to go back to game or 'q' for quit game")
+            key_presed = util.key_pressed()
+            if key_presed == "y":
                 util.clear_screen()
                 break
+            elif key_presed == 'q':
+                exit()
         except ValueError:
             print("ooops you need to press 'y' to go back to game")
 
