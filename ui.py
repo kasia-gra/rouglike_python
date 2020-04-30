@@ -87,7 +87,7 @@ def display_avatar_atributes(player, FIGHT_ATRIBUTES):
     atributes_table = ""
     for atribute, atribute_value in player.items():
         if atribute in FIGHT_ATRIBUTES:
-            current_atributes += str(atribute).rjust(10) + " - " +  str(atribute_value).rjust(2) + "\n"
+            current_atributes += str(atribute).rjust(10) + " - " +  str(round(atribute_value, 2)).rjust(2) + "\n"
     border = "********************"
     atributes_table += border + "\n" + "CURRENT STATUS: " + "\n" + current_atributes + border
     print(atributes_table)

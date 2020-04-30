@@ -57,33 +57,51 @@ def main():
     is_running = True
     while is_running:
         board = switch_map(level, maps)
-        engine.place_entitiy(board, player)
-        for key, value in enemies[level - 1].items():
-            engine.place_entitiy(board, value)
+        place_players_on_board(board, player, enemies, level)
         ui.display_board(board)
         ui.display_avatar_atributes(player, FIGHT_ATRIBUTES)
         key = util.key_pressed()
         engine.move_player(key, player, board, exit_doors_statuses, level)
         player_next_step = engine.get_player_next_step(player, board)
-        if player_next_step == "EX" or player_next_step == "EN":
-            level, exit_doors_statuses = engine.use_doors(player_next_step, level, player, exit_doors_statuses)
-        elif player_next_step in ui.ITEMS:
-            engine.collect_item(player_next_step, ui.ITEMS, player)
-            player_inventory = player["inventory"]
-            for fight_atribute in FIGHT_ATRIBUTES:
-                player[fight_atribute] += int(ui.ITEMS[player_next_step][fight_atribute])
-        if key in "wsad":
-            for enemy_key, value in enemies[level - 1].items():
-                engine.move_player(random.choice(["w", "s", "a", "d"]), value, board, exit_doors_statuses, level)
-        elif key == 'q':
-            is_running = False
-        elif key == "i":
-            chagne_mode_from_game_to_inventory(player_inventory)
+        level, exit_doors_statuses = handle_player_next_step(player_next_step, player, enemies[level - 1], level, exit_doors_statuses)
+        handle_key_pressed(key, enemies, level, player_inventory, board, exit_doors_statuses)
         engine.check_player_enemies_position(player, enemies[level - 1])
-        key_to_delete = engine.generate_enemy_key_to_delete(enemies[level - 1])
-        if key_to_delete is not None:
-            del enemies[level - 1][key_to_delete]
+        delete_defeted_enemy_from_board(enemies, level)
         util.clear_screen()
+
+
+def place_players_on_board(board, player, enemies, level):
+    engine.place_entitiy(board, player)
+    for key, value in enemies[level - 1].items():
+        engine.place_entitiy(board, value)
+
+
+def handle_player_next_step(player_next_step, player, enemies, level, exit_doors_statuses):
+    if player_next_step == "EX" or player_next_step == "EN":
+            level, exit_doors_statuses = engine.use_doors(player_next_step, level, player, exit_doors_statuses)
+    elif player_next_step in "2348":
+        engine.check_player_enemies_position(player, enemies)
+    elif player_next_step in ui.ITEMS:
+        engine.collect_item(player_next_step, ui.ITEMS, player)
+        player_inventory = player["inventory"]
+        for fight_atribute in FIGHT_ATRIBUTES:
+            player[fight_atribute] += int(ui.ITEMS[player_next_step][fight_atribute])
+    return level, exit_doors_statuses
+
+def handle_key_pressed(key, enemies, level, player_inventory, board, exit_doors_statuses):
+    if key in "wsad":
+        for enemy_key, value in enemies[level - 1].items():
+            engine.move_player(random.choice(["w", "s", "a", "d"]), value, board, exit_doors_statuses, level)
+    elif key == 'q':
+        is_running = False
+    elif key == "i":
+        chagne_mode_from_game_to_inventory(player_inventory)
+
+
+def delete_defeted_enemy_from_board(enemies, level):
+    key_to_delete = engine.generate_enemy_key_to_delete(enemies[level - 1])
+    if key_to_delete is not None:
+        del enemies[level - 1][key_to_delete]
 
 
 def generate_maps():
@@ -96,7 +114,10 @@ def generate_maps():
 def generate_enemies(maps):
     enemies = []
     for index in range(NUMBER_OF_MAPS):
-        enemies.append(engine.create_enemies(PLAYER_START_X, PLAYER_START_Y, maps[index], 3))
+        single_map_enemies = engine.create_enemies(PLAYER_START_X, PLAYER_START_Y, maps[index], 3)
+        enemies.append(single_map_enemies)
+    # add_boss = enemies[1]
+    # add_boss["Boss"] = engine.create_boss(1, 27, add_boss)
     return enemies
 
 

@@ -361,3 +361,9 @@ def clear_board_from_enemies(board):
             if board[row_index][column_index] in "234":
                 board[row_index][column_index] = " "
     return board
+
+
+def create_boss(player_start_pos_X, player_start_pos_Y, board, number_of_enemies=1):
+    name = "8"
+    boss = create_avatar_attributes((player_start_pos_X, player_start_pos_Y), name, 50, 35, "boss")
+    return boss
